@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Damiano Pincolini">
+<meta name="dcterms.date" content="2024-03-01">
+
+<title>Drinkers’s signal body</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="DrinkersBodySignal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="DrinkersBodySignal_files/libs/quarto-html/quarto.js"></script>
+<script src="DrinkersBodySignal_files/libs/quarto-html/popper.min.js"></script>
+<script src="DrinkersBodySignal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="DrinkersBodySignal_files/libs/quarto-html/anchor.min.js"></script>
+<link href="DrinkersBodySignal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="DrinkersBodySignal_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="DrinkersBodySignal_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="DrinkersBodySignal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="DrinkersBodySignal_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Drinkers’s signal body</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Damiano Pincolini </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 1, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="project-introduction" class="level2">
+<h2 class="anchored" data-anchor-id="project-introduction">PROJECT INTRODUCTION</h2>
+<section id="project-goal" class="level3">
+<h3 class="anchored" data-anchor-id="project-goal">PROJECT GOAL</h3>
+<p>The aim of this project is to investigate the potential relation between a target value (drinker status: “N”, “Y”) and some predictors based on body signals such as qualitative variables (i.e.&nbsp;smoker status) and quantitative features (i.e.&nbsp;cholesterol).</p>
+</section>
+<section id="loading-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="loading-libraries">LOADING LIBRARIES</h3>
+<p>The libraries that will be mainly used during this project will be: tidyverse, smartEDA, tidymodels and shapviz.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidyverse, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               tidymodels,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               DataExplorer,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               SmartEDA,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               ggcorrplot,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               corrplot,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               moments,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               skimr,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>               knitr,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>               DescTools,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               stats, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               vip,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>               datawizard,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>               GGally,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>               caret,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>               MASS,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>               kknn,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>               rpart.plot,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>               healthyR.ai,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>               embed,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>               cowplot,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>               factoextra,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>               LiblineaR,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>               shapviz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="loading-data" class="level3">
+<h3 class="anchored" data-anchor-id="loading-data">LOADING DATA</h3>
+<p>The dataset is taken from this Kaggle’s page: <a href="https://www.kaggle.com/datasets/sooyoungher/smoking-drinking-dataset." class="uri">https://www.kaggle.com/datasets/sooyoungher/smoking-drinking-dataset.</a> After downloading it on the laptop hard disk, it has been imported into R as a data frame called “DataOrigin”.</p>
+</section>
+<section id="data-check" class="level3">
+<h3 class="anchored" data-anchor-id="data-check">DATA CHECK</h3>
+<section id="dataset-structure-and-datatype-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-structure-and-datatype-analysis">Dataset structure and datatype analysis</h4>
+<p>First of all, with the only aim of having a very first sight on the dataset structure, I want to explore the dataset using some very useful commands from the smartEDA package. They do quite a lot of job and provide quite a comphrensive feedback that allows to have an overall glance of what I am going to work on.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DataExp1 <span class="ot">&lt;-</span> <span class="fu">ExpData</span>(DataOrigin, <span class="at">type=</span><span class="dv">1</span>) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DataExp1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Descriptions</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sample size (nrow)</td>
+<td style="text-align: left;">991346</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No.&nbsp;of variables (ncol)</td>
+<td style="text-align: left;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No.&nbsp;of numeric/interger variables</td>
+<td style="text-align: left;">22</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No.&nbsp;of factor variables</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No.&nbsp;of text variables</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No.&nbsp;of logical variables</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No.&nbsp;of identifier variables</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No.&nbsp;of date variables</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No.&nbsp;of zero variance variables (uniform)</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">%. of variables having complete cases</td>
+<td style="text-align: left;">100% (24)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">%. of variables having &gt;0% and &lt;50% missing cases</td>
+<td style="text-align: left;">0% (0)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">%. of variables having &gt;=50% and &lt;90% missing cases</td>
+<td style="text-align: left;">0% (0)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">%. of variables having &gt;=90% missing cases</td>
+<td style="text-align: left;">0% (0)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DataExp2 <span class="ot">&lt;-</span> <span class="fu">ExpData</span>(DataOrigin, <span class="at">type=</span><span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DataExp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 9%">
+<col style="width: 14%">
+<col style="width: 15%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Index</th>
+<th style="text-align: left;">Variable_Name</th>
+<th style="text-align: left;">Variable_Type</th>
+<th style="text-align: right;">Sample_n</th>
+<th style="text-align: right;">Missing_Count</th>
+<th style="text-align: right;">Per_of_Missing</th>
+<th style="text-align: right;">No_of_distinct_values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">sex</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">weight</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">waistline</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">737</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">sight_left</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">sight_right</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">hear_left</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">hear_right</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">SBP</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">171</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">DBP</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">127</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">BLDS</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">498</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">tot_chole</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">474</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">HDL_chole</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">223</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">LDL_chole</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">432</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">triglyceride</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1657</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">hemoglobin</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">190</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">urine_protein</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">serum_creatinine</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">183</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">SGOT_AST</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">568</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">SGOT_ALT</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">594</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">gamma_GTP</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">940</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">SMK_stat_type_cd</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">DRK_YN</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: right;">991346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>At a first sight, we can observe what follows: -“sex” and “DRK_YN” columns which are character data type. <em>All the other variables are numeric. -“hear_left”, “hear_right” are dicotomic numeric features (1=normal, 2=abnormal). They should be represented by a factor. </em>”urine_protein” is a numeric ordinal variable to be transformed into a factor (1=-, 2=+/-, 3=+1, 4=+2, 5=+3, 6=+4). <em>“SMK_stat_type” is a numeric ordinal variable to be transformed into a factor (1=never, 2=used to smoke but quit, 3=still smoke). </em>”DRK_YN” is a dicotomic character features (Y, N) that should be turned into a factor. This is supposed to be the target variable. <em>There are visible differences in features’ scales. </em>There are no missing value. No imputation is thus needed.</p>
+</section>
+<section id="conversion-to-factor" class="level4">
+<h4 class="anchored" data-anchor-id="conversion-to-factor">Conversion to factor</h4>
+<p>I want to force to factor every feature that come with a numerical or categorical class. By doing this, I create a new object simply called Data with the same dimension but with standardized data type. This is supposed to beuseful once we will train some ML models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Data <span class="ot">&lt;-</span> DataOrigin<span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex=</span><span class="fu">as_factor</span>((sex)),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">drkStatus=</span><span class="fu">as_factor</span>((DRK_YN)),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">hear_left=</span><span class="fu">as_factor</span>((hear_left)),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">hear_right=</span><span class="fu">as_factor</span>(hear_right),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">urine_protein=</span><span class="fu">as_factor</span>(urine_protein),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">smk_status=</span><span class="fu">as_factor</span>(SMK_stat_type_cd),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">.keep=</span><span class="st">"unused"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="sampling-and-data-partitioning" class="level3">
+<h3 class="anchored" data-anchor-id="sampling-and-data-partitioning">SAMPLING AND DATA PARTITIONING</h3>
+<p>In order to speed up the CPU pace and avoid crashing it, I want to reduce on a random base the original data set and work, from this point of the project, only on a new “reduced” object (called DataReduced) I will use immediately for data partitioning purpose. In the execution of DataSplit command, I want to pay attention to keep the same proportion of drinkers’ classes (“Y” and “N”) both in the training and in the test set, so I will use the argument “stata”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">666</span>, <span class="at">sample.kind =</span> <span class="st">"Rounding"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Index<span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Data),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">size=</span><span class="dv">100000</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>DataReduced <span class="ot">&lt;-</span> Data[Index, ]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>DataSplit <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(DataReduced,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">prop=</span><span class="fl">0.8</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">strata=</span>drkStatus)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>trainData <span class="ot">&lt;-</span> <span class="fu">training</span>(DataSplit)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>testData <span class="ot">&lt;-</span> <span class="fu">testing</span>(DataSplit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I have made data partitiong so early in the pipeline because from this moment, I want to use train test only for every activity related to explorative data analysis and model training, recalling test set only during model evaluation phase. This to avoid any kind of data leakage.</p>
+</section>
+</section>
+<section id="eda" class="level2">
+<h2 class="anchored" data-anchor-id="eda">EDA</h2>
+<section id="univariate-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="univariate-analysis">Univariate analysis</h3>
+<p>I am going to explore every single feature, how it is distributed and how it interacts with target variable. I will start from numerical predictors and then I’ll move on to categorical.</p>
+<section id="numerical-features" class="level4">
+<h4 class="anchored" data-anchor-id="numerical-features">Numerical features</h4>
+<p>I keep on using smartEDA package. The ExpNumStat command gives a pretty clear bird’s eye view of how every single variable behaves.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>DataSmartEDA <span class="ot">&lt;-</span> <span class="fu">ExpNumStat</span>(trainData,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">by=</span><span class="st">"A"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">gp=</span><span class="cn">NULL</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Qnt=</span><span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.75</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">MesofShape=</span><span class="dv">2</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Outlier=</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">round=</span><span class="dv">2</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                           </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DataSmartEDA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 8%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Vname</th>
+<th style="text-align: left;">Group</th>
+<th style="text-align: right;">TN</th>
+<th style="text-align: right;">nNeg</th>
+<th style="text-align: right;">nZero</th>
+<th style="text-align: right;">nPos</th>
+<th style="text-align: right;">NegInf</th>
+<th style="text-align: right;">PosInf</th>
+<th style="text-align: right;">NA_Value</th>
+<th style="text-align: right;">Per_of_Missing</th>
+<th style="text-align: right;">sum</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">SD</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">IQR</th>
+<th style="text-align: right;">Skewness</th>
+<th style="text-align: right;">Kurtosis</th>
+<th style="text-align: right;">25%</th>
+<th style="text-align: right;">75%</th>
+<th style="text-align: right;">LB.25%</th>
+<th style="text-align: right;">UB.75%</th>
+<th style="text-align: right;">nOutliers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3813730.0</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">85.0</td>
+<td style="text-align: right;">47.67</td>
+<td style="text-align: right;">50.0</td>
+<td style="text-align: right;">14.22</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">25.0</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">-0.59</td>
+<td style="text-align: right;">35.0</td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">-2.50</td>
+<td style="text-align: right;">97.50</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">BLDS</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8037556.0</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: right;">769.0</td>
+<td style="text-align: right;">100.47</td>
+<td style="text-align: right;">96.0</td>
+<td style="text-align: right;">24.51</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">17.0</td>
+<td style="text-align: right;">4.81</td>
+<td style="text-align: right;">45.14</td>
+<td style="text-align: right;">88.0</td>
+<td style="text-align: right;">105.0</td>
+<td style="text-align: right;">62.50</td>
+<td style="text-align: right;">130.50</td>
+<td style="text-align: right;">5180</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">DBP</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6080231.0</td>
+<td style="text-align: right;">34.0</td>
+<td style="text-align: right;">150.0</td>
+<td style="text-align: right;">76.00</td>
+<td style="text-align: right;">76.0</td>
+<td style="text-align: right;">9.87</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">70.0</td>
+<td style="text-align: right;">82.0</td>
+<td style="text-align: right;">52.00</td>
+<td style="text-align: right;">100.00</td>
+<td style="text-align: right;">1049</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">18</td>
+<td style="text-align: left;">gamma_GTP</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2941203.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">999.0</td>
+<td style="text-align: right;">36.77</td>
+<td style="text-align: right;">23.0</td>
+<td style="text-align: right;">49.35</td>
+<td style="text-align: right;">1.34</td>
+<td style="text-align: right;">23.0</td>
+<td style="text-align: right;">7.75</td>
+<td style="text-align: right;">98.67</td>
+<td style="text-align: right;">16.0</td>
+<td style="text-align: right;">39.0</td>
+<td style="text-align: right;">-18.50</td>
+<td style="text-align: right;">73.50</td>
+<td style="text-align: right;">7478</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">HDL_chole</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4562319.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">8110.0</td>
+<td style="text-align: right;">57.03</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">32.29</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">194.19</td>
+<td style="text-align: right;">48380.39</td>
+<td style="text-align: right;">46.0</td>
+<td style="text-align: right;">66.0</td>
+<td style="text-align: right;">16.00</td>
+<td style="text-align: right;">96.00</td>
+<td style="text-align: right;">1085</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12976735.0</td>
+<td style="text-align: right;">130.0</td>
+<td style="text-align: right;">190.0</td>
+<td style="text-align: right;">162.21</td>
+<td style="text-align: right;">160.0</td>
+<td style="text-align: right;">9.31</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">15.0</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">155.0</td>
+<td style="text-align: right;">170.0</td>
+<td style="text-align: right;">132.50</td>
+<td style="text-align: right;">192.50</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">14</td>
+<td style="text-align: left;">hemoglobin</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1137771.5</td>
+<td style="text-align: right;">4.1</td>
+<td style="text-align: right;">22.0</td>
+<td style="text-align: right;">14.22</td>
+<td style="text-align: right;">14.2</td>
+<td style="text-align: right;">1.59</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">2.2</td>
+<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">13.2</td>
+<td style="text-align: right;">15.4</td>
+<td style="text-align: right;">9.90</td>
+<td style="text-align: right;">18.70</td>
+<td style="text-align: right;">778</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">LDL_chole</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9045010.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">5119.0</td>
+<td style="text-align: right;">113.06</td>
+<td style="text-align: right;">111.0</td>
+<td style="text-align: right;">39.37</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">46.0</td>
+<td style="text-align: right;">27.24</td>
+<td style="text-align: right;">3314.26</td>
+<td style="text-align: right;">89.0</td>
+<td style="text-align: right;">135.0</td>
+<td style="text-align: right;">20.00</td>
+<td style="text-align: right;">204.00</td>
+<td style="text-align: right;">804</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">SBP</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9793196.0</td>
+<td style="text-align: right;">73.0</td>
+<td style="text-align: right;">240.0</td>
+<td style="text-align: right;">122.42</td>
+<td style="text-align: right;">120.0</td>
+<td style="text-align: right;">14.55</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: right;">131.0</td>
+<td style="text-align: right;">83.50</td>
+<td style="text-align: right;">159.50</td>
+<td style="text-align: right;">1293</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">serum_creatinine</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">68706.9</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">35.0</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">28.23</td>
+<td style="text-align: right;">2259.46</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right;">673</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">17</td>
+<td style="text-align: left;">SGOT_ALT</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2055293.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">671.0</td>
+<td style="text-align: right;">25.69</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">21.46</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">14.0</td>
+<td style="text-align: right;">6.73</td>
+<td style="text-align: right;">101.53</td>
+<td style="text-align: right;">15.0</td>
+<td style="text-align: right;">29.0</td>
+<td style="text-align: right;">-6.00</td>
+<td style="text-align: right;">50.00</td>
+<td style="text-align: right;">5945</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">SGOT_AST</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2074566.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">750.0</td>
+<td style="text-align: right;">25.93</td>
+<td style="text-align: right;">23.0</td>
+<td style="text-align: right;">16.29</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">12.72</td>
+<td style="text-align: right;">354.62</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">28.0</td>
+<td style="text-align: right;">5.50</td>
+<td style="text-align: right;">41.50</td>
+<td style="text-align: right;">5534</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">sight_left</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">78416.4</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">9.9</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">10.05</td>
+<td style="text-align: right;">147.83</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">-0.05</td>
+<td style="text-align: right;">1.95</td>
+<td style="text-align: right;">903</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">sight_right</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">78529.9</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">9.9</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">9.97</td>
+<td style="text-align: right;">141.35</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">-0.05</td>
+<td style="text-align: right;">1.95</td>
+<td style="text-align: right;">894</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">tot_chole</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">15641766.0</td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">1736.0</td>
+<td style="text-align: right;">195.52</td>
+<td style="text-align: right;">193.0</td>
+<td style="text-align: right;">39.03</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">50.0</td>
+<td style="text-align: right;">2.23</td>
+<td style="text-align: right;">66.58</td>
+<td style="text-align: right;">169.0</td>
+<td style="text-align: right;">219.0</td>
+<td style="text-align: right;">94.00</td>
+<td style="text-align: right;">294.00</td>
+<td style="text-align: right;">916</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">triglyceride</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10552756.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">9490.0</td>
+<td style="text-align: right;">131.91</td>
+<td style="text-align: right;">106.0</td>
+<td style="text-align: right;">106.67</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">85.0</td>
+<td style="text-align: right;">14.02</td>
+<td style="text-align: right;">858.23</td>
+<td style="text-align: right;">73.0</td>
+<td style="text-align: right;">158.0</td>
+<td style="text-align: right;">-54.50</td>
+<td style="text-align: right;">285.50</td>
+<td style="text-align: right;">4481</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">waistline</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6491807.5</td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">999.0</td>
+<td style="text-align: right;">81.15</td>
+<td style="text-align: right;">81.0</td>
+<td style="text-align: right;">11.55</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">13.2</td>
+<td style="text-align: right;">25.16</td>
+<td style="text-align: right;">1990.82</td>
+<td style="text-align: right;">74.0</td>
+<td style="text-align: right;">87.2</td>
+<td style="text-align: right;">54.20</td>
+<td style="text-align: right;">107.00</td>
+<td style="text-align: right;">451</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">weight</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">79999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5056675.0</td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">130.0</td>
+<td style="text-align: right;">63.21</td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">12.50</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">15.0</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">70.0</td>
+<td style="text-align: right;">32.50</td>
+<td style="text-align: right;">92.50</td>
+<td style="text-align: right;">1538</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Is there something interesting I can highlight? - SGOT_ALT and SGOT_AST have a CV around 100% (102% and 90% respectively), gamma_GTP’ CV measures 1.36. - Several variables have a very high skewness and kurtosis and quite a high number of outliers. - Generally speaking, based on these statistics, it seems there’s quite a clear need for feature transformation.</p>
+<p>At this stage, due to the evidence in the table below, I definitely want to properly detect outliers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DataOutlier <span class="ot">&lt;-</span> <span class="fu">ExpOutliers</span>(trainData,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">varlist =</span> <span class="fu">c</span>(<span class="st">"gamma_GTP"</span>, <span class="st">"SGOT_AST"</span>, <span class="st">"SGOT_ALT"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">method=</span><span class="st">"boxplot"</span>)<span class="sc">$</span>outlier_summary</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DataOutlier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 39%">
+<col style="width: 29%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">gamma_GTP</th>
+<th style="text-align: left;">SGOT_AST</th>
+<th style="text-align: left;">SGOT_ALT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Lower cap : 0.05</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Upper cap : 0.95</td>
+<td style="text-align: left;">104</td>
+<td style="text-align: left;">46</td>
+<td style="text-align: left;">59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lower bound</td>
+<td style="text-align: left;">-18.5</td>
+<td style="text-align: left;">5.5</td>
+<td style="text-align: left;">-6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Upper bound</td>
+<td style="text-align: left;">73.5</td>
+<td style="text-align: left;">41.5</td>
+<td style="text-align: left;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num of outliers</td>
+<td style="text-align: left;">7478</td>
+<td style="text-align: left;">5534</td>
+<td style="text-align: left;">5945</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lower outlier case</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">719,4582,14006,16573,36896,37288,41361,53651,61784,69737,69957,71293</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Upper outlier case</td>
+<td style="text-align: left;">4,44,85,166,177,192,224,226,229,231,235,247,250,263,315,323,382,384,401,403,409,413,416,453,479,502,511,525,591,609,610,631,632,715,731,738,752,771,870,907,983,1006,1023,1048,1054,1097,1138,1140,1172,1231,1240,1245,1258,1279,1300,1336,1350,1359,1395,1412,1437,1450,1456,1474,1511,1581,1583,1585,1599,1610,1682,1702,1731,1741,1770,1776,1783,1888,1916,1956,1968,1984,1989,1990,1994,2043,2112,2148,2179,2197,2216,2221,2228,2234,2239,2260,2272,2304,2322,2338,2342,2370,2374,2403,2419,2422,2451,2489,2557,2585,2659,2677,2698,2712,2734,2745,2774,2794,2804,2826,2827,2840,2853,2866,2928,2940,2942,2967,3016,3063,3109,3283,3307,3363,3385,3387,3391,3450,3453,3540,3542,3583,3588,3630,3689,3738,3763,3781,3813,3878,3887,3913,3932,3954,3994,4004,4012,4073,4103,4117,4132,4145,4152,4218,4239,4240,4323,4363,4375,4414,4431,4446,4486,4513,4558,4589,4688,4702,4786,4818,4827,4835,4840,4862,4882,4886,4906,4928,4945,4966,4978,5045,5053,5058,5091,5100,5115,5157,5217,5243,5311,5313,5348,5360,5368,5408,5416,5418,5437,5447,5515,5524,5542,5551,5578,5593,5622,5647,5650,5651,5664,5733,5759,5760,5773,5785,5810,5820,5894,5899,5938,5948,5978,5994,6001,6052,6077,6102,6124,6134,6149,6219,6320,6343,6367,6380,6398,6501,6502,6533,6544,6546,6625,6681,6720,6727,6736,6738,6846,6868,6873,6879,6885,6894,6928,6938,6962,6998,7013,7055,7057,7096,7101,7121,7127,7134,7193,7195,7199,7206,7240,7245,7246,7291,7320,7323,7381,7382,7441,7449,7453,7494,7537,7559,7587,7588,7646,7649,7700,7719,7733,7743,7757,7827,7844,7900,7902,7908,7918,7954,7984,8010,8011,8047,8114,8119,8126,8353,8361,8364,8429,8519,8528,8558,8590,8636,8650,8652,8663,8678,8713,8722,8792,8817,8830,8837,8887,8900,8916,8926,8955,8991,8992,9068,9070,9113,9118,9125,9136,9140,9147,9159,9210,9245,9294,9314,9360,9371,9377,9389,9441,9479,9505,9507,9512,9538,9597,9609,9640,9658,9660,9669,9690,9697,9699,9701,9703,9729,9746,9763,9796,9834,9882,9942,9961,9968,10047,10053,10060,10062,10094,10105,10154,10157,10214,10217,10228,10282,10310,10390,10411,10429,10432,10486,10523,10526,10615,10642,10697,10699,10701,10736,10742,10746,10762,10763,10767,10810,10816,10838,10878,10880,10889,11040,11098,11116,11130,11134,11144,11166,11204,11208,11224,11277,11295,11297,11304,11321,11334,11381,11400,11422,11442,11482,11493,11575,11591,11593,11595,11607,11610,11620,11634,11663,11676,11739,11741,11774,11811,11829,11843,11883,11903,11930,11996,12004,12008,12024,12027,12030,12072,12077,12101,12153,12164,12170,12201,12242,12293,12298,12346,12367,12381,12400,12425,12447,12504,12547,12551,12555,12573,12635,12673,12677,12759,12762,12802,12807,12810,12855,12907,12939,12983,12994,13060,13061,13085,13088,13111,13143,13153,13164,13250,13269,13303,13305,13327,13350,13357,13394,13447,13452,13474,13481,13488,13495,13521,13524,13525,13526,13534,13615,13629,13634,13696,13719,13738,13741,13745,13755,13764,13821,13836,13839,13881,13927,13930,13935,13978,13984,13998,14066,14088,14136,14139,14187,14191,14209,14216,14245,14276,14288,14298,14326,14349,14350,14408,14426,14429,14437,14445,14448,14500,14511,14546,14555,14580,14585,14586,14595,14632,14641,14678,14752,14775,14786,14795,14797,14810,14817,14841,14901,14908,14924,14928,14929,14952,14967,15065,15113,15144,15172,15183,15193,15198,15205,15231,15268,15293,15295,15302,15313,15315,15361,15419,15436,15462,15474,15505,15515,15530,15550,15568,15593,15597,15607,15617,15629,15639,15659,15733,15737,15741,15747,15748,15797,15816,15835,15883,15965,16050,16080,16122,16179,16204,16234,16250,16261,16287,16297,16313,16381,16385,16398,16405,16411,16426,16452,16465,16512,16527,16556,16575,16576,16671,16712,16716,16726,16731,16774,16789,16818,16840,16878,16881,16883,16891,16962,16973,16974,16981,16998,16999,17037,17056,17079,17153,17197,17202,17217,17231,17234,17257,17272,17371,17404,17481,17528,17624,17662,17691,17709,17715,17733,17740,17788,17840,17858,17902,17906,17912,17927,17953,18018,18030,18099,18180,18245,18275,18293,18306,18310,18313,18355,18361,18382,18390,18408,18433,18439,18486,18522,18532,18580,18599,18637,18638,18655,18669,18730,18758,18778,18782,18792,18853,18900,18950,18974,18978,19000,19002,19047,19059,19064,19170,19174,19192,19246,19247,19254,19276,19306,19418,19422,19423,19444,19467,19471,19492,19512,19517,19536,19540,19546,19553,19599,19610,19615,19635,19700,19757,19759,19761,19791,19806,19834,19839,19865,19916,19921,19928,19947,19951,19969,19973,19985,20030,20068,20078,20081,20090,20104,20114,20137,20193,20203,20208,20254,20272,20371,20381,20383,20392,20405,20422,20452,20481,20490,20491,20498,20536,20549,20565,20577,20589,20602,20622,20648,20698,20714,20834,20854,20863,20877,20889,20925,20929,20944,20981,20983,21031,21059,21079,21088,21093,21118,21174,21209,21236,21270,21286,21311,21333,21346,21395,21409,21414,21463,21465,21468,21484,21486,21487,21505,21520,21534,21536,21550,21562,21573,21579,21580,21584,21687,21746,21761,21768,21790,21805,21846,21867,21877,21909,21922,21945,21974,21990,22008,22037,22065,22080,22112,22113,22119,22120,22151,22154,22203,22222,22271,22281,22347,22351,22355,22364,22380,22389,22391,22406,22409,22412,22449,22484,22563,22601,22602,22611,22642,22644,22647,22661,22675,22691,22715,22726,22768,22793,22813,22845,22848,22864,22867,22922,22930,22964,22980,23019,23028,23065,23083,23162,23182,23248,23293,23312,23354,23397,23447,23458,23478,23511,23588,23589,23619,23627,23639,23644,23700,23738,23760,23787,23813,23814,23890,23906,23931,23965,24002,24029,24056,24059,24168,24170,24194,24224,24234,24290,24296,24299,24331,24359,24368,24398,24405,24436,24447,24456,24469,24520,24530,24559,24568,24648,24664,24686,24704,24774,24788,24815,24839,24841,24843,24851,24877,24922,24969,24995,25017,25061,25084,25106,25108,25124,25129,25162,25163,25178,25195,25207,25208,25211,25251,25295,25308,25368,25373,25378,25486,25518,25578,25579,25589,25612,25643,25648,25663,25674,25694,25729,25730,25762,25768,25771,25800,25810,25822,25845,25848,25876,25877,25899,26005,26024,26080,26081,26086,26128,26153,26182,26231,26328,26464,26504,26514,26515,26516,26528,26542,26547,26572,26584,26602,26652,26673,26717,26760,26785,26793,26805,26841,26856,26881,26893,26988,27027,27101,27147,27183,27193,27225,27233,27273,27302,27305,27323,27362,27380,27383,27389,27394,27399,27439,27494,27503,27514,27515,27516,27529,27541,27552,27566,27580,27589,27591,27595,27602,27623,27631,27633,27661,27665,27684,27695,27700,27705,27906,27912,27943,27949,27970,27977,27980,28022,28029,28079,28087,28101,28143,28153,28167,28176,28179,28219,28247,28249,28284,28299,28301,28334,28361,28465,28485,28497,28502,28533,28566,28576,28662,28699,28705,28744,28755,28759,28762,28784,28790,28796,28841,28846,28864,28872,28911,28916,28927,28995,28999,29050,29053,29074,29177,29208,29220,29248,29260,29286,29289,29410,29421,29460,29484,29516,29517,29541,29543,29603,29611,29653,29679,29715,29747,29769,29791,29809,29818,29822,29830,29854,29864,29910,29919,29980,30000,30012,30013,30037,30061,30075,30079,30084,30088,30102,30116,30135,30139,30145,30154,30171,30183,30197,30220,30223,30230,30237,30243,30259,30336,30348,30350,30418,30429,30436,30505,30533,30541,30564,30585,30591,30628,30630,30643,30868,30875,30881,30894,30906,30912,30925,30932,30949,30957,31046,31056,31152,31247,31261,31287,31302,31319,31320,31348,31464,31561,31585,31610,31630,31769,31774,31789,31843,31860,31953,32015,32068,32070,32131,32159,32230,32247,32264,32268,32305,32308,32327,32332,32371,32405,32415,32433,32488,32497,32503,32532,32564,32590,32592,32608,32662,32730,32735,32765,32790,32817,32851,32858,32878,32905,32935,32962,32987,32990,33024,33026,33040,33041,33080,33090,33092,33111,33186,33191,33201,33204,33206,33229,33254,33263,33339,33389,33401,33662,33664,33678,33703,33794,33814,33829,34006,34054,34067,34129,34135,34136,34152,34156,34160,34186,34228,34238,34265,34302,34309,34329,34338,34369,34488,34494,34499,34597,34627,34759,34783,34799,34873,34882,34887,34922,34950,34985,34987,35039,35090,35141,35163,35165,35174,35188,35258,35270,35300,35337,35338,35361,35381,35443,35479,35505,35538,35555,35558,35565,35604,35635,35643,35661,35665,35678,35745,35772,35779,35794,35823,35825,35843,35851,35872,35886,35905,35917,35935,35963,35995,36018,36029,36039,36071,36077,36094,36147,36179,36228,36279,36299,36310,36317,36328,36339,36358,36385,36425,36441,36478,36483,36486,36504,36530,36544,36548,36564,36574,36589,36611,36616,36641,36672,36679,36835,36922,36985,37005,37018,37042,37047,37079,37090,37106,37112,37123,37166,37171,37172,37176,37220,37248,37372,37374,37375,37387,37440,37503,37516,37554,37572,37578,37604,37634,37693,37705,37726,37779,37806,37808,37833,37834,37979,38026,38044,38053,38069,38089,38107,38114,38134,38138,38161,38168,38199,38219,38224,38253,38303,38322,38337,38339,38344,38376,38397,38430,38447,38457,38460,38470,38496,38532,38533,38541,38564,38590,38607,38654,38676,38696,38748,38758,38761,38763,38788,38798,38829,38868,38916,38927,38930,38939,38960,38969,38998,39016,39017,39070,39072,39081,39120,39133,39174,39189,39207,39252,39275,39325,39330,39370,39374,39382,39403,39424,39450,39478,39525,39526,39538,39565,39566,39611,39625,39628,39694,39721,39729,39755,39765,39835,39879,39899,39931,39936,39965,39985,40022,40029,40100,40116,40118,40119,40121,40124,40125,40130,40134,40136,40139,40147,40148,40154,40164,40169,40173,40174,40183,40185,40193,40201,40205,40211,40214,40232,40235,40251,40258,40259,40265,40267,40271,40272,40273,40276,40279,40280,40281,40282,40286,40292,40303,40305,40308,40310,40312,40334,40341,40342,40345,40347,40356,40358,40360,40364,40365,40369,40374,40381,40386,40398,40405,40408,40425,40426,40429,40430,40448,40449,40456,40466,40473,40479,40484,40488,40496,40497,40498,40499,40503,40508,40509,40515,40527,40540,40544,40545,40547,40555,40565,40589,40594,40607,40610,40622,40630,40646,40654,40659,40661,40673,40675,40705,40711,40712,40716,40721,40722,40730,40735,40740,40748,40751,40771,40795,40805,40808,40813,40821,40822,40830,40834,40840,40845,40851,40859,40864,40884,40886,40891,40892,40901,40906,40915,40917,40935,40941,40942,40952,40962,40977,40982,40987,40988,40990,40997,41005,41007,41009,41010,41015,41026,41029,41033,41042,41050,41053,41057,41067,41072,41083,41091,41092,41097,41099,41105,41107,41185,41190,41200,41224,41231,41233,41245,41247,41253,41255,41260,41267,41282,41287,41288,41289,41300,41308,41311,41321,41334,41337,41342,41347,41360,41383,41384,41392,41393,41394,41399,41410,41411,41415,41419,41422,41434,41437,41441,41445,41448,41454,41457,41458,41462,41470,41483,41490,41502,41509,41510,41516,41518,41524,41545,41547,41550,41568,41584,41587,41595,41599,41627,41629,41638,41643,41644,41645,41649,41652,41654,41662,41688,41689,41694,41700,41710,41714,41768,41770,41772,41778,41781,41802,41803,41813,41818,41820,41826,41828,41831,41861,41867,41877,41883,41888,41889,41910,41916,41920,41924,41926,41929,41930,41941,41959,41960,41962,41964,41968,41976,41978,41979,41980,41991,41997,42002,42005,42021,42026,42027,42049,42059,42068,42071,42081,42086,42087,42101,42115,42118,42125,42131,42139,42140,42143,42149,42156,42168,42172,42197,42199,42211,42213,42218,42220,42222,42226,42228,42248,42255,42258,42264,42266,42279,42285,42287,42288,42293,42296,42297,42299,42301,42302,42304,42329,42336,42343,42353,42354,42362,42368,42377,42378,42381,42388,42389,42393,42394,42400,42401,42406,42424,42435,42451,42465,42472,42478,42492,42493,42502,42528,42539,42545,42546,42571,42572,42582,42590,42596,42601,42608,42614,42623,42624,42630,42633,42635,42636,42637,42643,42644,42657,42661,42663,42680,42683,42685,42701,42705,42714,42716,42722,42728,42736,42737,42741,42745,42758,42760,42763,42771,42774,42777,42800,42805,42810,42814,42835,42840,42854,42865,42874,42911,42921,42931,42935,42939,42951,42954,42955,42964,42970,42971,42990,42995,43001,43003,43014,43022,43028,43038,43042,43051,43054,43060,43064,43066,43069,43071,43074,43086,43099,43107,43131,43136,43143,43145,43151,43152,43153,43161,43171,43178,43179,43182,43190,43196,43214,43221,43226,43227,43236,43249,43253,43270,43273,43280,43286,43293,43309,43317,43324,43329,43333,43337,43344,43346,43347,43350,43352,43357,43366,43367,43380,43383,43390,43402,43404,43415,43418,43424,43432,43463,43468,43469,43471,43485,43522,43526,43539,43545,43548,43555,43572,43574,43576,43604,43606,43607,43614,43635,43649,43650,43656,43657,43659,43666,43688,43695,43699,43706,43708,43714,43728,43735,43741,43745,43755,43761,43764,43765,43770,43782,43793,43795,43805,43807,43814,43834,43860,43863,43865,43867,43874,43877,43879,43881,43882,43907,43914,43916,43931,43933,43943,43951,43952,43977,43980,43981,43985,43989,43990,43999,44003,44017,44021,44029,44035,44042,44055,44059,44085,44094,44111,44119,44120,44122,44134,44139,44142,44145,44148,44156,44161,44187,44189,44195,44201,44220,44222,44225,44230,44233,44241,44244,44245,44251,44258,44263,44265,44298,44301,44304,44305,44309,44313,44314,44316,44323,44329,44336,44342,44360,44367,44372,44384,44387,44389,44406,44410,44413,44421,44424,44430,44437,44453,44465,44476,44479,44480,44486,44488,44515,44517,44521,44534,44536,44540,44550,44553,44560,44566,44574,44587,44588,44589,44593,44615,44617,44627,44633,44640,44647,44648,44652,44665,44677,44684,44691,44694,44705,44709,44715,44722,44723,44724,44725,44727,44731,44736,44738,44743,44751,44754,44760,44761,44763,44767,44768,44797,44811,44815,44823,44825,44826,44845,44847,44854,44856,44858,44859,44872,44883,44886,44895,44906,44907,44909,44921,44922,44925,44926,44947,44958,44961,44969,44973,44975,44979,44989,44994,44997,45033,45036,45043,45044,45045,45058,45065,45081,45091,45104,45106,45119,45121,45122,45125,45126,45133,45151,45153,45159,45165,45170,45174,45176,45177,45200,45211,45225,45230,45232,45259,45278,45281,45287,45300,45301,45303,45309,45318,45327,45332,45333,45364,45371,45374,45377,45379,45380,45382,45388,45389,45391,45398,45402,45405,45412,45413,45436,45437,45441,45447,45448,45453,45463,45466,45474,45485,45498,45499,45506,45508,45524,45529,45542,45554,45555,45561,45566,45578,45580,45587,45588,45592,45596,45598,45599,45601,45612,45618,45626,45645,45657,45661,45663,45672,45674,45679,45682,45704,45705,45706,45707,45708,45709,45716,45718,45721,45725,45730,45733,45734,45743,45750,45760,45777,45787,45795,45804,45805,45806,45809,45828,45842,45844,45853,45863,45866,45872,45873,45886,45887,45896,45900,45926,45936,45953,45955,45956,45959,45960,45974,45984,45985,45992,45993,45995,45998,46024,46026,46031,46034,46041,46052,46070,46072,46074,46075,46078,46082,46090,46093,46095,46103,46105,46108,46120,46121,46135,46160,46189,46201,46202,46204,46208,46217,46219,46231,46248,46250,46263,46265,46266,46271,46274,46277,46278,46285,46306,46311,46313,46314,46317,46318,46327,46331,46332,46337,46345,46351,46355,46364,46371,46377,46387,46393,46395,46402,46403,46419,46421,46427,46460,46464,46466,46478,46487,46488,46494,46502,46519,46521,46529,46535,46544,46546,46547,46552,46555,46576,46577,46599,46606,46613,46615,46639,46642,46656,46670,46674,46683,46688,46693,46694,46706,46708,46713,46717,46733,46737,46738,46742,46751,46752,46767,46769,46773,46774,46786,46787,46789,46794,46811,46812,46816,46828,46830,46842,46843,46844,46847,46848,46854,46855,46862,46863,46868,46869,46875,46878,46887,46889,46896,46906,46908,46921,46930,46931,46933,46956,46959,46960,46978,46985,46987,46988,46992,46999,47004,47007,47013,47018,47024,47027,47028,47029,47044,47053,47062,47065,47071,47073,47075,47076,47078,47082,47084,47091,47100,47104,47119,47126,47127,47133,47136,47147,47151,47154,47170,47171,47186,47194,47211,47215,47216,47219,47221,47223,47225,47235,47245,47261,47265,47272,47274,47280,47297,47298,47301,47303,47308,47322,47324,47327,47345,47348,47349,47356,47361,47366,47381,47384,47389,47392,47399,47400,47404,47409,47410,47412,47419,47423,47424,47436,47439,47440,47441,47458,47459,47461,47467,47481,47485,47490,47496,47501,47503,47509,47523,47527,47528,47537,47542,47551,47552,47560,47566,47577,47579,47584,47588,47598,47601,47602,47629,47631,47644,47645,47650,47657,47658,47664,47669,47672,47675,47676,47696,47699,47720,47722,47725,47736,47744,47748,47762,47769,47775,47776,47778,47794,47799,47818,47821,47833,47835,47855,47866,47870,47871,47896,47899,47901,47902,47905,47924,47925,47927,47945,47946,47949,47955,47958,48007,48012,48013,48027,48029,48031,48033,48042,48043,48050,48052,48061,48065,48076,48091,48098,48106,48124,48143,48152,48154,48156,48164,48171,48193,48199,48203,48213,48215,48218,48241,48264,48268,48270,48272,48279,48281,48286,48300,48308,48315,48317,48322,48323,48327,48331,48338,48345,48347,48349,48350,48360,48388,48395,48404,48416,48420,48424,48435,48436,48437,48460,48461,48478,48481,48486,48499,48528,48534,48542,48545,48550,48552,48570,48593,48596,48603,48604,48613,48628,48635,48644,48645,48648,48649,48671,48674,48677,48686,48688,48693,48694,48698,48702,48703,48704,48714,48718,48719,48742,48745,48750,48758,48767,48769,48772,48773,48785,48790,48791,48793,48798,48809,48811,48818,48821,48822,48831,48832,48833,48849,48855,48861,48862,48865,48869,48871,48882,48883,48885,48891,48905,48909,48914,48918,48923,48924,48925,48929,48935,48936,48942,48948,48951,48960,48962,48967,48968,48971,48972,48987,48988,49012,49022,49055,49057,49070,49071,49084,49094,49103,49104,49108,49116,49126,49128,49150,49163,49171,49190,49195,49204,49205,49215,49219,49234,49239,49247,49249,49264,49273,49278,49292,49294,49305,49310,49314,49316,49370,49372,49374,49376,49381,49384,49385,49394,49401,49404,49408,49410,49419,49420,49422,49427,49431,49448,49456,49469,49473,49475,49485,49488,49492,49503,49509,49510,49514,49522,49523,49526,49527,49529,49539,49541,49544,49548,49580,49581,49585,49588,49599,49609,49610,49611,49617,49627,49629,49637,49647,49657,49677,49678,49685,49703,49708,49709,49710,49711,49717,49719,49724,49732,49733,49737,49739,49741,49745,49749,49760,49762,49763,49791,49796,49798,49803,49804,49805,49823,49844,49859,49867,49868,49871,49883,49884,49892,49895,49898,49919,49930,49938,49941,49954,49959,49960,49968,49994,49996,49998,50002,50005,50014,50022,50023,50033,50038,50045,50053,50080,50081,50083,50094,50095,50097,50098,50112,50120,50121,50122,50124,50149,50152,50168,50186,50199,50200,50201,50203,50204,50207,50213,50216,50237,50244,50245,50246,50247,50254,50265,50272,50282,50287,50305,50318,50331,50344,50357,50368,50373,50382,50388,50411,50415,50421,50428,50460,50462,50463,50471,50473,50482,50492,50498,50502,50511,50517,50538,50553,50572,50579,50580,50590,50595,50596,50607,50618,50629,50635,50639,50653,50655,50656,50658,50660,50690,50694,50711,50713,50723,50725,50738,50750,50764,50766,50768,50777,50783,50784,50786,50795,50803,50805,50809,50835,50838,50841,50856,50858,50859,50863,50874,50888,50899,50911,50926,50928,50929,50933,50936,50947,50952,50956,50960,50961,50975,50976,50977,50979,50982,50984,50994,50996,51004,51010,51015,51026,51035,51046,51049,51054,51059,51067,51068,51070,51078,51091,51093,51108,51114,51119,51124,51147,51154,51157,51158,51159,51173,51187,51216,51222,51223,51225,51232,51245,51247,51263,51264,51265,51266,51270,51272,51285,51287,51295,51322,51325,51327,51348,51354,51367,51374,51378,51382,51385,51391,51395,51405,51414,51416,51418,51429,51441,51448,51452,51453,51467,51468,51473,51477,51490,51495,51507,51512,51522,51525,51528,51536,51539,51540,51556,51574,51577,51584,51587,51588,51591,51623,51627,51650,51651,51652,51658,51659,51673,51676,51678,51687,51695,51705,51716,51719,51723,51725,51731,51736,51756,51760,51769,51770,51774,51793,51795,51802,51804,51807,51811,51812,51825,51838,51844,51848,51853,51856,51858,51861,51874,51880,51882,51883,51891,51892,51897,51904,51911,51912,51919,51927,51931,51932,51941,51946,51958,51966,51975,51983,51997,52010,52017,52029,52040,52041,52044,52059,52075,52077,52080,52087,52091,52093,52101,52113,52122,52124,52126,52134,52147,52155,52171,52174,52191,52196,52215,52220,52226,52228,52230,52232,52234,52238,52240,52265,52266,52282,52286,52287,52296,52304,52311,52317,52319,52321,52325,52329,52332,52347,52348,52356,52359,52367,52389,52407,52418,52422,52440,52443,52446,52449,52450,52481,52486,52487,52508,52512,52519,52546,52550,52552,52553,52555,52574,52578,52593,52596,52597,52606,52608,52612,52614,52616,52620,52627,52652,52670,52673,52675,52679,52684,52686,52687,52693,52711,52712,52716,52717,52723,52735,52737,52750,52753,52757,52760,52769,52772,52775,52791,52799,52806,52808,52811,52812,52813,52815,52817,52821,52830,52831,52835,52839,52840,52856,52868,52878,52880,52882,52885,52898,52900,52911,52913,52918,52929,52935,52947,52952,52955,52967,52970,52974,52979,52993,53000,53005,53008,53016,53029,53052,53061,53064,53073,53074,53086,53092,53097,53105,53108,53109,53119,53145,53148,53155,53169,53173,53178,53180,53183,53196,53211,53223,53224,53242,53251,53255,53257,53260,53262,53280,53287,53296,53306,53316,53318,53324,53328,53333,53335,53337,53340,53342,53371,53380,53383,53401,53405,53412,53423,53425,53435,53446,53459,53464,53471,53473,53477,53489,53490,53495,53508,53515,53519,53522,53530,53534,53551,53553,53559,53563,53567,53573,53583,53588,53595,53598,53603,53609,53610,53619,53622,53634,53637,53646,53649,53656,53657,53662,53669,53673,53675,53677,53678,53698,53704,53707,53713,53717,53722,53725,53728,53752,53767,53769,53777,53783,53785,53786,53815,53818,53819,53822,53829,53830,53839,53841,53850,53857,53862,53863,53866,53869,53873,53875,53876,53887,53892,53897,53900,53904,53910,53916,53919,53924,53929,53938,53946,53956,53962,53979,53994,53998,54000,54010,54011,54023,54030,54041,54045,54047,54055,54057,54060,54066,54070,54077,54083,54093,54112,54114,54125,54126,54130,54133,54150,54160,54179,54180,54188,54189,54192,54193,54194,54202,54213,54230,54232,54233,54255,54267,54272,54289,54291,54315,54318,54328,54335,54337,54338,54345,54348,54358,54363,54373,54374,54376,54380,54385,54387,54392,54393,54402,54408,54418,54422,54423,54424,54444,54449,54455,54458,54463,54465,54476,54487,54495,54500,54504,54510,54519,54528,54530,54534,54535,54542,54546,54552,54553,54555,54561,54568,54569,54572,54576,54581,54583,54593,54594,54613,54615,54618,54632,54634,54644,54656,54661,54668,54669,54672,54702,54704,54730,54734,54738,54747,54767,54774,54779,54783,54785,54787,54791,54799,54809,54818,54819,54824,54827,54835,54849,54856,54865,54876,54881,54882,54884,54889,54890,54896,54910,54911,54915,54918,54924,54926,54941,54955,54962,54963,54967,54969,54971,54974,54978,54988,55000,55007,55010,55013,55014,55016,55019,55026,55032,55035,55039,55040,55043,55046,55070,55088,55100,55107,55110,55111,55125,55130,55132,55134,55135,55150,55156,55159,55162,55177,55180,55185,55189,55204,55205,55215,55222,55224,55227,55239,55249,55256,55258,55264,55266,55283,55293,55304,55314,55326,55347,55367,55368,55369,55372,55376,55382,55383,55395,55397,55399,55431,55442,55444,55452,55454,55458,55460,55467,55468,55478,55485,55493,55496,55511,55517,55521,55524,55525,55551,55552,55559,55567,55580,55592,55600,55655,55659,55663,55664,55668,55670,55682,55709,55713,55714,55717,55727,55732,55736,55747,55753,55754,55765,55773,55777,55778,55780,55782,55800,55811,55815,55821,55826,55827,55841,55849,55852,55856,55862,55864,55870,55874,55889,55890,55896,55898,55900,55907,55916,55927,55935,55938,55939,55946,55947,55964,55981,55989,55994,55996,56000,56008,56018,56019,56022,56032,56047,56055,56062,56065,56066,56069,56074,56075,56090,56097,56113,56116,56120,56121,56133,56154,56155,56160,56162,56166,56170,56171,56181,56194,56213,56218,56227,56233,56235,56239,56240,56246,56247,56252,56274,56277,56285,56312,56354,56367,56372,56380,56382,56389,56392,56393,56400,56419,56425,56427,56428,56430,56434,56439,56447,56449,56454,56468,56473,56483,56485,56489,56490,56499,56505,56515,56546,56551,56564,56566,56574,56576,56578,56580,56581,56592,56602,56614,56616,56623,56625,56631,56635,56641,56644,56651,56652,56656,56663,56666,56668,56676,56680,56684,56687,56693,56713,56715,56718,56720,56721,56727,56737,56738,56739,56742,56746,56749,56759,56762,56763,56776,56777,56781,56787,56805,56809,56816,56818,56821,56822,56833,56840,56843,56846,56849,56851,56868,56869,56885,56895,56896,56899,56903,56908,56910,56912,56916,56928,56932,56947,56953,56968,56971,56973,56975,56981,56984,56988,56991,56995,57001,57021,57045,57049,57051,57055,57059,57063,57067,57068,57072,57076,57077,57078,57085,57090,57094,57095,57096,57100,57104,57115,57118,57127,57133,57148,57149,57159,57161,57177,57181,57183,57210,57214,57216,57217,57225,57228,57229,57236,57242,57252,57255,57258,57281,57282,57292,57298,57307,57316,57319,57326,57342,57345,57361,57375,57376,57380,57381,57384,57400,57407,57409,57415,57417,57419,57454,57456,57465,57477,57488,57490,57494,57496,57497,57504,57510,57516,57523,57534,57538,57556,57567,57575,57587,57604,57620,57625,57637,57639,57647,57650,57663,57678,57687,57690,57706,57707,57708,57709,57711,57733,57742,57745,57758,57763,57784,57812,57822,57823,57824,57825,57827,57835,57841,57845,57846,57849,57852,57859,57862,57877,57884,57904,57907,57911,57916,57917,57920,57921,57929,57938,57941,57945,57953,57956,57974,57976,57982,57986,57990,57994,58001,58002,58005,58008,58011,58012,58016,58024,58026,58048,58057,58060,58065,58073,58084,58086,58096,58099,58101,58107,58117,58118,58126,58127,58137,58145,58149,58159,58160,58167,58173,58200,58207,58209,58233,58238,58239,58242,58249,58250,58253,58257,58275,58276,58277,58282,58284,58285,58292,58299,58301,58304,58306,58312,58336,58348,58350,58354,58356,58368,58371,58380,58381,58395,58399,58400,58404,58408,58412,58417,58425,58433,58440,58450,58458,58461,58466,58471,58474,58481,58485,58502,58509,58522,58524,58540,58543,58548,58561,58563,58569,58578,58588,58602,58603,58612,58614,58619,58630,58649,58658,58664,58665,58667,58671,58674,58702,58728,58736,58742,58745,58748,58752,58754,58773,58779,58783,58785,58788,58799,58800,58815,58827,58828,58831,58843,58844,58859,58865,58869,58870,58875,58889,58891,58895,58898,58900,58909,58924,58928,58930,58933,58934,58940,58944,58965,58977,58987,58990,58991,59005,59006,59007,59018,59033,59060,59064,59065,59067,59077,59081,59085,59086,59097,59100,59107,59129,59134,59138,59143,59152,59158,59159,59164,59170,59176,59180,59188,59190,59191,59194,59210,59212,59219,59221,59228,59229,59252,59257,59265,59266,59268,59271,59274,59278,59288,59305,59309,59311,59320,59324,59325,59336,59341,59363,59373,59379,59393,59397,59408,59409,59418,59425,59427,59434,59441,59450,59454,59458,59459,59471,59477,59480,59485,59488,59491,59499,59504,59510,59522,59524,59530,59540,59541,59546,59551,59567,59568,59574,59575,59587,59599,59611,59621,59627,59641,59645,59646,59656,59661,59685,59700,59706,59711,59712,59717,59722,59726,59727,59728,59730,59736,59738,59741,59755,59757,59769,59779,59783,59785,59788,59794,59799,59809,59819,59820,59821,59826,59836,59840,59845,59846,59859,59861,59863,59864,59881,59883,59888,59893,59902,59903,59906,59912,59928,59933,59941,59942,59957,59961,59975,59980,59981,59982,60008,60011,60015,60024,60034,60038,60042,60056,60063,60064,60083,60097,60105,60109,60116,60117,60120,60121,60123,60131,60135,60138,60141,60150,60152,60163,60164,60165,60169,60182,60184,60201,60204,60226,60232,60233,60235,60247,60250,60251,60255,60260,60263,60266,60268,60271,60278,60296,60306,60308,60310,60313,60315,60316,60326,60342,60346,60347,60363,60366,60369,60375,60377,60391,60396,60400,60407,60413,60422,60423,60424,60427,60429,60432,60433,60453,60467,60477,60479,60491,60498,60502,60503,60518,60526,60528,60529,60533,60546,60548,60552,60553,60554,60561,60563,60576,60583,60601,60605,60613,60617,60637,60639,60652,60682,60698,60699,60706,60720,60721,60725,60732,60734,60737,60788,60789,60792,60793,60804,60808,60809,60811,60816,60822,60824,60834,60835,60837,60839,60850,60859,60870,60879,60888,60896,60900,60901,60905,60910,60911,60915,60920,60928,60933,60942,60944,60949,60963,60973,60978,60987,60988,60992,60998,61003,61013,61040,61041,61042,61044,61050,61064,61083,61086,61087,61089,61096,61097,61100,61101,61102,61104,61105,61109,61125,61127,61133,61137,61156,61165,61173,61174,61180,61190,61192,61199,61205,61224,61225,61227,61229,61253,61256,61258,61263,61266,61267,61305,61306,61310,61315,61341,61354,61360,61365,61374,61375,61384,61393,61409,61410,61421,61426,61432,61433,61437,61441,61446,61447,61464,61471,61472,61480,61482,61483,61484,61497,61500,61501,61505,61507,61508,61514,61524,61527,61536,61563,61564,61568,61575,61580,61582,61583,61587,61599,61616,61633,61635,61636,61641,61670,61671,61682,61684,61685,61688,61689,61699,61703,61713,61718,61725,61733,61735,61748,61750,61757,61767,61769,61775,61776,61778,61781,61791,61801,61802,61815,61816,61817,61825,61826,61837,61841,61843,61845,61850,61854,61857,61862,61872,61874,61879,61883,61889,61893,61895,61896,61899,61911,61924,61932,61941,61945,61946,61960,61969,61970,61976,61995,61998,62000,62002,62015,62021,62057,62060,62062,62064,62076,62079,62080,62084,62089,62101,62104,62118,62119,62128,62130,62144,62152,62153,62155,62156,62157,62173,62181,62186,62193,62204,62222,62224,62225,62231,62235,62243,62245,62248,62250,62253,62255,62261,62262,62268,62271,62277,62287,62291,62292,62327,62328,62330,62334,62338,62350,62362,62364,62366,62367,62369,62377,62384,62386,62391,62404,62406,62413,62414,62423,62440,62443,62445,62447,62453,62462,62464,62475,62477,62480,62487,62492,62501,62509,62511,62526,62538,62540,62561,62565,62573,62581,62605,62622,62627,62643,62645,62646,62651,62652,62659,62665,62666,62670,62671,62675,62686,62691,62703,62709,62720,62729,62732,62742,62755,62760,62763,62768,62772,62783,62787,62794,62800,62804,62811,62814,62816,62818,62823,62827,62828,62848,62851,62853,62854,62858,62874,62893,62894,62899,62914,62937,62941,62946,62951,62952,62964,62982,62989,62993,62999,63024,63026,63035,63037,63038,63044,63064,63074,63077,63083,63086,63102,63103,63104,63125,63144,63145,63150,63153,63155,63158,63187,63190,63194,63200,63211,63213,63215,63217,63222,63228,63247,63250,63257,63260,63261,63273,63278,63285,63291,63300,63305,63319,63327,63328,63329,63330,63337,63338,63357,63367,63368,63377,63378,63387,63402,63403,63416,63418,63420,63421,63432,63434,63441,63444,63446,63473,63476,63482,63486,63489,63499,63506,63513,63556,63560,63569,63601,63602,63605,63612,63615,63623,63624,63627,63654,63658,63659,63661,63666,63667,63670,63678,63679,63692,63693,63697,63706,63710,63711,63716,63717,63723,63724,63727,63732,63743,63748,63751,63753,63761,63762,63765,63766,63767,63772,63774,63794,63818,63823,63829,63834,63837,63866,63867,63870,63874,63891,63904,63906,63922,63930,63931,63940,63952,63954,63961,63964,63982,63985,63986,63992,63996,63998,63999,64012,64038,64055,64062,64075,64081,64085,64096,64098,64104,64107,64108,64110,64111,64120,64125,64135,64140,64162,64173,64174,64177,64179,64180,64181,64185,64186,64192,64198,64207,64209,64216,64237,64244,64255,64259,64275,64279,64284,64288,64303,64312,64319,64333,64341,64359,64365,64366,64372,64379,64381,64382,64389,64397,64398,64401,64403,64406,64410,64414,64420,64421,64427,64429,64430,64438,64445,64446,64447,64452,64457,64495,64518,64522,64529,64534,64544,64548,64550,64551,64555,64557,64566,64574,64582,64593,64605,64611,64612,64613,64623,64628,64636,64657,64670,64674,64683,64685,64696,64697,64712,64716,64717,64724,64731,64744,64753,64758,64771,64777,64782,64787,64789,64791,64792,64794,64798,64823,64826,64838,64848,64849,64851,64855,64863,64869,64871,64881,64891,64892,64902,64923,64929,64959,64967,64968,64979,64981,64986,64995,64996,65008,65025,65027,65036,65044,65051,65053,65065,65070,65083,65085,65097,65103,65106,65116,65121,65122,65123,65128,65145,65165,65170,65174,65186,65194,65196,65199,65204,65210,65213,65221,65225,65236,65239,65241,65242,65244,65245,65263,65266,65273,65276,65282,65284,65296,65311,65312,65332,65337,65348,65363,65368,65397,65401,65404,65410,65412,65415,65419,65433,65443,65446,65449,65450,65453,65465,65475,65479,65485,65486,65489,65492,65494,65500,65508,65514,65525,65526,65532,65533,65539,65540,65542,65546,65550,65557,65559,65573,65582,65593,65599,65605,65607,65609,65613,65617,65626,65629,65634,65635,65640,65661,65675,65679,65683,65694,65706,65707,65711,65723,65729,65742,65745,65750,65762,65770,65774,65782,65792,65794,65802,65807,65808,65815,65816,65820,65830,65831,65851,65863,65864,65866,65869,65871,65881,65888,65907,65911,65916,65917,65924,65931,65937,65939,65947,65952,65953,65974,65982,65985,65986,65987,66013,66021,66023,66034,66041,66044,66051,66066,66068,66069,66074,66076,66081,66083,66091,66096,66097,66098,66112,66116,66120,66122,66137,66141,66143,66145,66159,66171,66172,66195,66205,66213,66219,66222,66240,66252,66256,66258,66265,66277,66282,66284,66287,66288,66294,66296,66304,66310,66317,66322,66325,66328,66343,66349,66354,66361,66371,66372,66382,66388,66394,66415,66422,66452,66456,66486,66498,66508,66509,66510,66515,66525,66534,66537,66539,66541,66552,66563,66581,66586,66587,66591,66592,66597,66600,66608,66614,66615,66620,66626,66627,66637,66639,66640,66644,66651,66652,66654,66657,66663,66667,66668,66675,66682,66684,66685,66688,66706,66715,66734,66736,66739,66746,66751,66757,66758,66789,66795,66798,66799,66803,66804,66806,66812,66815,66824,66849,66854,66868,66874,66878,66884,66886,66896,66922,66924,66935,66937,66959,66961,66964,66970,66993,66994,67002,67009,67023,67024,67038,67040,67047,67048,67054,67058,67074,67083,67086,67093,67099,67105,67116,67119,67127,67132,67133,67154,67164,67176,67182,67188,67204,67207,67214,67248,67254,67255,67261,67264,67268,67271,67284,67286,67291,67308,67310,67316,67330,67331,67343,67349,67362,67368,67372,67373,67396,67398,67408,67413,67421,67422,67425,67428,67433,67440,67447,67450,67451,67459,67470,67474,67480,67481,67487,67493,67494,67498,67500,67507,67512,67518,67524,67526,67529,67533,67538,67553,67555,67565,67582,67594,67595,67596,67597,67606,67611,67614,67615,67616,67627,67635,67639,67653,67654,67656,67658,67667,67700,67701,67709,67710,67713,67724,67725,67735,67754,67755,67756,67763,67779,67780,67782,67783,67788,67798,67801,67803,67819,67838,67865,67872,67879,67882,67884,67901,67905,67915,67918,67939,67943,67945,67946,67949,67954,67956,67964,67965,67968,67970,67973,67975,67976,67981,67992,67995,67998,68000,68001,68006,68008,68016,68024,68035,68051,68059,68062,68067,68069,68083,68093,68099,68100,68106,68108,68112,68124,68128,68142,68145,68147,68149,68151,68153,68163,68175,68184,68186,68192,68213,68223,68226,68241,68245,68250,68254,68277,68284,68289,68291,68296,68298,68300,68302,68314,68316,68330,68333,68336,68353,68356,68359,68361,68368,68382,68387,68392,68402,68405,68409,68422,68426,68427,68428,68429,68434,68448,68454,68456,68464,68474,68484,68485,68488,68491,68508,68509,68521,68529,68533,68534,68559,68560,68567,68568,68571,68575,68577,68583,68589,68595,68612,68618,68622,68627,68628,68633,68638,68643,68651,68659,68675,68682,68687,68702,68710,68722,68745,68746,68751,68755,68756,68761,68765,68770,68778,68787,68791,68797,68799,68818,68819,68821,68832,68833,68835,68841,68843,68845,68846,68849,68853,68857,68858,68883,68888,68892,68894,68898,68900,68901,68906,68907,68908,68913,68915,68919,68923,68924,68933,68935,68942,68943,68952,68954,68956,68967,68970,68972,68978,68985,68986,68992,68993,68994,68995,68999,69008,69011,69020,69021,69032,69033,69037,69047,69048,69052,69067,69069,69071,69072,69073,69080,69087,69101,69108,69109,69114,69115,69116,69118,69123,69126,69135,69147,69163,69165,69173,69180,69188,69189,69200,69211,69215,69219,69235,69248,69253,69254,69263,69270,69275,69281,69282,69285,69294,69298,69302,69309,69310,69312,69315,69316,69323,69324,69326,69330,69345,69350,69351,69359,69362,69363,69376,69386,69394,69410,69413,69419,69421,69433,69436,69447,69449,69450,69455,69457,69466,69475,69481,69484,69487,69492,69494,69512,69524,69527,69543,69545,69551,69560,69571,69592,69608,69615,69622,69642,69643,69652,69666,69669,69679,69681,69694,69697,69702,69705,69712,69714,69737,69741,69745,69748,69749,69770,69777,69779,69781,69786,69825,69842,69843,69849,69853,69859,69869,69876,69878,69879,69884,69932,69933,69939,69953,69956,69974,69985,69992,69993,69994,70004,70006,70021,70026,70027,70031,70033,70035,70048,70051,70064,70068,70070,70080,70086,70091,70100,70103,70107,70117,70120,70121,70137,70144,70153,70155,70161,70172,70173,70175,70185,70193,70197,70203,70207,70209,70216,70219,70224,70228,70231,70238,70266,70271,70274,70277,70281,70282,70285,70293,70297,70308,70322,70326,70333,70335,70338,70340,70348,70364,70379,70381,70384,70386,70387,70393,70397,70422,70427,70442,70451,70453,70455,70457,70458,70466,70469,70478,70488,70490,70493,70496,70510,70511,70519,70522,70541,70552,70557,70588,70589,70593,70598,70610,70616,70618,70628,70631,70636,70637,70639,70642,70658,70664,70665,70682,70689,70696,70700,70717,70718,70728,70732,70741,70744,70746,70747,70748,70759,70763,70768,70769,70770,70788,70790,70792,70794,70804,70820,70824,70825,70826,70831,70846,70847,70866,70871,70890,70904,70905,70908,70925,70930,70936,70938,70939,70941,70949,70956,70969,70977,70985,70986,70990,71007,71008,71012,71030,71038,71039,71044,71047,71056,71058,71063,71070,71078,71079,71083,71085,71088,71089,71090,71124,71157,71166,71168,71172,71174,71183,71190,71197,71207,71227,71230,71232,71233,71235,71237,71244,71258,71263,71266,71268,71273,71282,71283,71304,71305,71309,71329,71330,71333,71334,71340,71344,71345,71348,71351,71352,71363,71364,71376,71378,71381,71393,71397,71399,71404,71406,71410,71421,71427,71432,71447,71453,71463,71465,71469,71471,71476,71511,71517,71519,71521,71525,71560,71573,71575,71589,71593,71602,71603,71612,71613,71614,71616,71637,71639,71651,71652,71655,71657,71666,71682,71688,71693,71694,71699,71715,71716,71718,71722,71724,71725,71735,71736,71742,71748,71754,71755,71757,71762,71766,71767,71787,71799,71801,71807,71812,71814,71816,71818,71819,71825,71833,71834,71839,71843,71851,71853,71860,71863,71878,71881,71896,71905,71912,71925,71931,71934,71937,71947,71950,71951,71966,71982,71984,71989,71994,72006,72009,72012,72015,72016,72019,72029,72032,72046,72048,72062,72080,72082,72085,72088,72091,72103,72119,72120,72122,72125,72128,72129,72132,72144,72154,72163,72168,72171,72172,72175,72190,72201,72202,72210,72215,72218,72225,72232,72238,72252,72253,72270,72274,72276,72283,72291,72301,72308,72315,72317,72323,72324,72326,72334,72337,72351,72365,72373,72385,72386,72387,72390,72396,72399,72401,72411,72412,72414,72423,72425,72429,72430,72436,72437,72446,72452,72457,72458,72463,72471,72478,72482,72491,72494,72507,72512,72516,72523,72538,72544,72547,72550,72568,72570,72571,72573,72574,72577,72585,72598,72599,72616,72629,72630,72635,72639,72651,72654,72675,72677,72682,72687,72689,72691,72693,72700,72702,72707,72712,72713,72724,72729,72733,72741,72742,72759,72766,72769,72771,72773,72779,72803,72809,72810,72811,72816,72844,72849,72852,72855,72861,72862,72883,72884,72885,72886,72906,72908,72918,72919,72932,72933,72948,72986,72994,72995,73004,73010,73012,73015,73016,73017,73033,73040,73049,73050,73053,73069,73072,73073,73081,73087,73088,73090,73092,73094,73100,73118,73126,73132,73138,73143,73147,73150,73159,73187,73198,73203,73223,73226,73232,73243,73244,73247,73249,73270,73276,73280,73281,73284,73288,73289,73293,73301,73306,73313,73317,73330,73332,73337,73342,73359,73369,73386,73391,73405,73419,73429,73430,73433,73444,73452,73455,73461,73473,73482,73483,73491,73498,73515,73526,73542,73550,73561,73564,73572,73584,73594,73602,73606,73608,73609,73611,73624,73625,73633,73636,73642,73649,73656,73657,73658,73660,73671,73687,73688,73692,73695,73705,73708,73714,73716,73717,73742,73745,73753,73771,73784,73786,73794,73808,73813,73814,73815,73816,73821,73824,73829,73842,73846,73849,73852,73862,73886,73904,73906,73909,73912,73916,73918,73927,73932,73939,73940,73941,73942,73945,73951,73954,73961,73966,73967,73968,73969,73972,73976,73984,73993,74022,74036,74038,74053,74059,74065,74076,74083,74088,74096,74099,74116,74118,74125,74126,74135,74147,74153,74156,74162,74164,74174,74177,74179,74184,74190,74191,74192,74208,74211,74212,74213,74216,74219,74222,74227,74233,74235,74236,74237,74238,74244,74249,74258,74279,74287,74288,74300,74302,74307,74321,74355,74357,74387,74388,74389,74394,74398,74405,74413,74418,74422,74431,74433,74440,74443,74445,74448,74455,74478,74481,74485,74487,74527,74532,74555,74556,74557,74570,74578,74579,74585,74597,74606,74609,74623,74628,74647,74648,74656,74670,74687,74706,74711,74715,74720,74725,74727,74729,74736,74737,74740,74746,74748,74755,74758,74772,74777,74786,74787,74791,74792,74801,74803,74807,74821,74834,74859,74871,74885,74894,74898,74902,74905,74907,74909,74911,74915,74919,74922,74929,74932,74935,74937,74941,74948,74954,74964,74965,74969,74971,74973,74975,74979,74982,74995,74999,75005,75007,75016,75046,75053,75055,75061,75069,75073,75082,75087,75095,75099,75108,75111,75112,75113,75115,75123,75124,75128,75131,75139,75153,75169,75175,75180,75202,75223,75228,75237,75239,75246,75248,75256,75260,75264,75281,75288,75299,75307,75313,75318,75321,75337,75339,75340,75341,75351,75363,75369,75370,75373,75374,75377,75389,75390,75393,75398,75413,75427,75438,75441,75443,75457,75461,75464,75472,75476,75482,75488,75500,75502,75506,75515,75521,75529,75531,75556,75571,75585,75591,75594,75596,75599,75603,75611,75617,75618,75621,75623,75624,75635,75640,75643,75644,75648,75650,75658,75660,75661,75665,75676,75681,75682,75684,75697,75704,75709,75721,75745,75750,75758,75778,75785,75802,75808,75809,75811,75829,75834,75841,75844,75850,75859,75861,75863,75871,75873,75894,75901,75914,75916,75920,75927,75945,75964,75977,75978,75981,75985,75991,76020,76021,76026,76029,76039,76042,76048,76053,76068,76069,76074,76087,76096,76117,76120,76122,76136,76147,76161,76165,76167,76170,76173,76175,76186,76195,76205,76209,76223,76224,76227,76233,76243,76262,76267,76276,76281,76286,76296,76297,76301,76314,76330,76335,76338,76346,76348,76349,76355,76359,76367,76368,76373,76384,76400,76403,76428,76434,76438,76440,76446,76447,76451,76465,76476,76477,76480,76508,76509,76515,76523,76531,76546,76558,76560,76575,76577,76582,76584,76585,76601,76612,76622,76623,76639,76645,76651,76659,76670,76677,76697,76698,76701,76702,76703,76704,76713,76720,76776,76802,76807,76809,76810,76814,76818,76820,76821,76822,76825,76828,76839,76846,76859,76886,76897,76911,76919,76925,76930,76937,76939,76947,76956,76964,76971,76973,76975,76985,76988,77001,77013,77018,77022,77030,77042,77045,77061,77063,77069,77070,77072,77074,77077,77086,77091,77093,77109,77110,77118,77123,77127,77151,77152,77153,77179,77203,77214,77224,77226,77228,77233,77247,77248,77258,77259,77260,77261,77269,77273,77277,77279,77284,77290,77305,77310,77314,77329,77331,77341,77346,77351,77353,77365,77371,77373,77375,77379,77383,77387,77393,77395,77396,77403,77426,77428,77438,77456,77458,77460,77466,77474,77479,77487,77493,77494,77496,77497,77510,77515,77527,77529,77540,77542,77549,77580,77582,77583,77590,77592,77595,77596,77598,77599,77604,77606,77610,77622,77632,77641,77653,77667,77701,77703,77706,77713,77728,77757,77762,77764,77780,77784,77792,77799,77802,77803,77834,77839,77843,77846,77854,77858,77860,77867,77873,77879,77880,77883,77884,77892,77901,77905,77907,77908,77912,77915,77919,77921,77924,77925,77926,77931,77933,77934,77935,77939,77951,77958,77959,77966,77970,77971,77975,77976,77981,77988,77997,78009,78024,78027,78028,78030,78044,78047,78055,78059,78066,78073,78074,78075,78080,78091,78092,78098,78102,78104,78113,78130,78145,78150,78153,78155,78161,78175,78179,78182,78198,78209,78246,78247,78274,78278,78283,78284,78285,78299,78311,78314,78315,78334,78335,78344,78350,78366,78370,78381,78385,78395,78397,78399,78403,78404,78405,78415,78416,78420,78425,78428,78439,78441,78447,78449,78453,78470,78488,78489,78491,78497,78511,78514,78518,78531,78534,78552,78566,78569,78571,78580,78581,78598,78602,78607,78608,78626,78632,78640,78644,78648,78651,78652,78661,78678,78696,78698,78700,78701,78702,78713,78723,78728,78740,78748,78773,78780,78794,78798,78799,78805,78808,78812,78820,78828,78839,78843,78852,78860,78875,78878,78880,78881,78884,78896,78898,78904,78905,78907,78910,78916,78920,78925,78937,78939,78941,78942,78955,78972,79009,79017,79031,79044,79070,79084,79089,79092,79093,79097,79099,79100,79101,79102,79104,79121,79127,79137,79139,79145,79157,79160,79166,79171,79186,79194,79197,79200,79208,79216,79219,79221,79230,79236,79238,79239,79246,79262,79263,79270,79274,79278,79299,79303,79310,79311,79312,79329,79332,79349,79353,79354,79371,79375,79393,79401,79405,79408,79418,79428,79447,79454,79471,79486,79493,79504,79506,79511,79539,79544,79559,79560,79561,79564,79568,79572,79579,79584,79595,79603,79604,79620,79621,79630,79631,79632,79643,79655,79659,79666,79675,79678,79681,79683,79684,79714,79718,79721,79722,79727,79735,79740,79750,79772,79783,79787,79798,79800,79822,79824,79828,79829,79832,79835,79848,79850,79862,79864,79866,79875,79884,79901,79902,79911,79922,79962,79967,79968,79980,79985,79989,79990,79995</td>
+<td style="text-align: left;">4,19,27,44,49,56,66,75,95,143,182,192,224,242,247,250,263,277,315,320,325,362,394,400,413,414,418,477,479,495,523,525,540,591,603,609,611,626,628,629,632,633,645,646,657,662,663,693,700,722,724,731,743,759,782,783,793,804,808,834,836,846,855,856,870,872,911,926,943,970,983,987,997,1006,1011,1028,1051,1054,1100,1106,1109,1120,1130,1138,1141,1157,1176,1231,1234,1240,1276,1279,1283,1286,1292,1336,1371,1383,1397,1505,1506,1507,1524,1535,1601,1610,1643,1647,1690,1693,1741,1751,1760,1776,1801,1813,1832,1866,1870,1872,1917,1919,1924,1928,1950,1951,1952,1968,1975,1985,1994,2014,2023,2098,2104,2107,2125,2127,2148,2160,2162,2179,2234,2239,2242,2247,2260,2267,2291,2320,2330,2338,2341,2342,2361,2370,2374,2378,2424,2507,2534,2574,2585,2637,2638,2656,2657,2669,2674,2733,2745,2752,2755,2808,2863,2877,2929,2954,2967,3032,3044,3063,3075,3109,3133,3160,3162,3168,3173,3176,3177,3203,3216,3261,3321,3334,3343,3357,3385,3387,3409,3450,3453,3461,3484,3504,3540,3542,3543,3548,3585,3588,3607,3661,3680,3693,3758,3793,3807,3813,3820,3844,3868,3878,3883,3887,3910,3913,3932,3954,3976,3991,3994,4004,4012,4021,4046,4132,4156,4169,4177,4189,4194,4217,4218,4225,4233,4239,4248,4252,4271,4279,4314,4345,4347,4356,4361,4362,4363,4377,4388,4393,4426,4429,4441,4468,4486,4488,4543,4558,4564,4603,4633,4642,4683,4737,4747,4754,4767,4778,4786,4818,4835,4837,4840,4871,4882,4883,4888,4906,4914,4982,5018,5033,5045,5050,5053,5069,5071,5089,5106,5109,5148,5150,5157,5188,5219,5281,5285,5302,5304,5335,5368,5381,5388,5391,5408,5411,5418,5428,5440,5467,5484,5488,5493,5499,5500,5531,5549,5586,5590,5594,5651,5677,5700,5727,5733,5773,5793,5820,5826,5832,5860,5868,5878,5898,5899,5960,5978,5994,6004,6009,6015,6049,6053,6057,6093,6116,6119,6134,6149,6152,6173,6255,6260,6293,6301,6366,6367,6398,6418,6445,6490,6500,6519,6537,6544,6546,6549,6557,6580,6596,6603,6618,6633,6681,6720,6736,6738,6771,6786,6787,6789,6792,6846,6853,6906,6920,6945,6957,6982,6986,7029,7035,7057,7074,7096,7121,7134,7167,7203,7207,7245,7246,7255,7291,7322,7324,7359,7381,7429,7444,7453,7456,7467,7480,7494,7501,7523,7560,7571,7585,7588,7602,7632,7635,7641,7646,7649,7652,7657,7671,7675,7708,7712,7732,7759,7793,7804,7806,7812,7821,7827,7838,7861,7867,7887,7893,7896,7981,7986,8010,8018,8132,8161,8189,8217,8230,8243,8289,8290,8324,8328,8335,8429,8454,8483,8522,8550,8553,8555,8570,8604,8631,8656,8663,8723,8735,8736,8748,8801,8802,8808,8817,8829,8830,8836,8837,8869,8872,8935,8966,8997,9016,9019,9022,9032,9040,9055,9068,9070,9082,9104,9116,9118,9125,9136,9140,9166,9183,9210,9218,9235,9244,9245,9270,9284,9299,9306,9314,9358,9360,9363,9367,9371,9406,9414,9479,9501,9511,9543,9544,9590,9597,9650,9658,9669,9690,9701,9703,9712,9715,9731,9735,9736,9737,9746,9770,9775,9802,9823,9825,9867,9871,9904,9959,9968,9979,10028,10047,10051,10105,10115,10168,10175,10212,10217,10220,10256,10279,10281,10288,10298,10327,10333,10405,10427,10457,10491,10523,10526,10561,10585,10588,10591,10626,10644,10649,10665,10680,10685,10686,10695,10699,10701,10724,10742,10746,10749,10751,10763,10772,10810,10816,10817,10830,10838,10865,10874,10877,10878,10882,10889,10896,10933,10937,10946,10967,10979,10992,11001,11008,11022,11064,11098,11121,11134,11139,11160,11166,11175,11204,11208,11222,11224,11231,11243,11250,11265,11275,11297,11331,11340,11343,11348,11359,11372,11382,11392,11396,11431,11437,11442,11468,11470,11481,11493,11515,11519,11579,11603,11607,11610,11632,11639,11686,11723,11730,11734,11742,11750,11766,11774,11819,11843,11876,11883,11884,11905,11906,11924,11933,11950,11968,11977,11996,12004,12024,12027,12039,12043,12044,12065,12072,12077,12080,12081,12101,12116,12118,12153,12154,12163,12170,12254,12255,12293,12298,12350,12353,12385,12399,12408,12437,12443,12446,12447,12467,12485,12504,12537,12547,12557,12574,12605,12606,12663,12664,12673,12690,12762,12810,12814,12878,12905,12907,12935,12939,12953,13027,13037,13041,13060,13061,13085,13111,13126,13143,13152,13178,13207,13230,13235,13250,13269,13303,13305,13389,13421,13428,13447,13452,13461,13464,13474,13479,13488,13496,13497,13518,13525,13572,13579,13615,13636,13643,13654,13673,13693,13696,13703,13708,13719,13725,13747,13754,13762,13765,13787,13795,13802,13806,13818,13821,13839,13841,13849,13927,13938,13954,13974,13991,13996,14017,14041,14049,14077,14083,14108,14115,14130,14145,14171,14181,14187,14198,14212,14216,14238,14247,14256,14258,14276,14280,14298,14313,14338,14356,14402,14405,14422,14425,14426,14437,14448,14488,14511,14513,14539,14546,14550,14560,14564,14580,14585,14586,14624,14632,14641,14675,14678,14706,14730,14731,14742,14786,14795,14797,14809,14822,14849,14860,14861,14865,14868,14888,14895,14901,14903,14908,14919,14920,14928,14932,14934,14939,14940,14949,14951,14979,15013,15032,15040,15054,15059,15069,15117,15121,15151,15156,15168,15172,15248,15259,15268,15299,15327,15346,15358,15361,15362,15385,15389,15397,15400,15436,15441,15487,15505,15508,15515,15550,15575,15593,15597,15607,15609,15616,15627,15634,15639,15650,15659,15696,15727,15728,15737,15743,15750,15772,15797,15799,15801,15816,15830,15835,15840,15883,15891,15919,15923,15932,15965,15975,15977,16021,16033,16048,16050,16067,16100,16102,16123,16136,16150,16154,16180,16226,16266,16267,16287,16312,16314,16317,16356,16367,16369,16381,16385,16405,16411,16414,16416,16422,16452,16473,16510,16512,16541,16556,16570,16579,16635,16656,16671,16672,16681,16691,16716,16726,16731,16736,16746,16773,16787,16797,16808,16818,16822,16862,16873,16880,16881,16883,16894,16926,16928,16931,16955,16969,16973,16987,16994,16998,17047,17084,17085,17130,17133,17146,17150,17155,17182,17202,17231,17272,17283,17286,17292,17339,17374,17375,17379,17384,17391,17477,17481,17570,17579,17591,17612,17624,17657,17662,17703,17737,17740,17789,17791,17793,17801,17840,17845,17896,17902,17927,17960,17978,18001,18016,18018,18039,18055,18109,18141,18146,18171,18178,18181,18211,18240,18275,18278,18288,18291,18293,18333,18358,18382,18390,18396,18404,18413,18447,18461,18465,18481,18497,18513,18514,18518,18520,18532,18547,18554,18562,18588,18595,18637,18638,18653,18655,18671,18692,18712,18721,18730,18734,18745,18746,18778,18789,18798,18815,18825,18851,18927,18933,18957,18965,18970,18978,19002,19020,19029,19031,19059,19064,19075,19106,19144,19152,19181,19192,19208,19245,19253,19260,19276,19297,19315,19330,19360,19368,19378,19422,19423,19427,19435,19452,19467,19471,19504,19517,19518,19527,19543,19546,19553,19565,19568,19593,19606,19635,19647,19683,19711,19757,19825,19826,19831,19911,19916,19919,19921,19951,19974,19992,20017,20028,20040,20043,20051,20058,20077,20104,20174,20184,20206,20211,20214,20244,20254,20278,20287,20313,20330,20342,20371,20435,20436,20462,20465,20473,20490,20491,20532,20549,20551,20565,20566,20589,20597,20602,20622,20672,20676,20703,20708,20710,20731,20738,20741,20754,20771,20811,20839,20868,20877,20899,20914,20959,20961,20974,20977,20983,20987,21005,21020,21024,21079,21093,21118,21119,21122,21157,21162,21204,21206,21209,21215,21217,21224,21286,21304,21311,21333,21339,21346,21363,21373,21389,21395,21409,21441,21453,21461,21482,21483,21484,21486,21513,21536,21554,21562,21566,21579,21584,21614,21640,21678,21682,21687,21740,21762,21766,21787,21805,21811,21835,21846,21877,21890,21918,21922,21939,21955,21974,21975,21990,22031,22037,22065,22074,22099,22103,22113,22120,22126,22129,22232,22270,22328,22329,22331,22382,22388,22390,22466,22474,22515,22539,22563,22599,22603,22611,22612,22627,22641,22642,22644,22647,22652,22675,22676,22724,22748,22766,22777,22804,22809,22815,22848,22849,22864,22867,22873,22964,22975,22977,23007,23032,23034,23066,23076,23103,23140,23144,23162,23165,23178,23194,23207,23262,23270,23285,23351,23354,23361,23377,23420,23436,23441,23451,23453,23467,23478,23505,23511,23512,23537,23544,23550,23565,23569,23594,23619,23621,23641,23648,23671,23712,23717,23738,23755,23760,23787,23792,23793,23800,23808,23813,23823,23831,23886,23894,23901,23912,23920,23925,23931,23965,23982,24022,24028,24029,24032,24056,24059,24069,24091,24099,24105,24158,24167,24170,24204,24225,24235,24244,24263,24281,24318,24320,24329,24331,24361,24367,24368,24390,24436,24457,24471,24498,24503,24520,24529,24566,24568,24574,24577,24664,24669,24680,24686,24710,24724,24743,24771,24774,24830,24833,24843,24851,24865,24883,24890,24895,24950,24969,24981,24995,25017,25056,25071,25120,25160,25162,25168,25176,25180,25202,25204,25208,25239,25242,25263,25284,25312,25369,25373,25376,25401,25424,25445,25486,25508,25518,25526,25527,25557,25589,25606,25612,25643,25672,25694,25696,25703,25736,25780,25824,25853,25879,25921,25964,25968,25970,26055,26074,26087,26089,26101,26119,26123,26128,26144,26153,26163,26172,26200,26231,26246,26259,26270,26292,26313,26325,26328,26345,26362,26375,26380,26399,26411,26412,26443,26447,26459,26515,26516,26528,26554,26556,26572,26584,26587,26635,26639,26664,26717,26735,26741,26751,26760,26789,26841,26856,26881,26913,26917,26930,26940,26957,26958,26977,27012,27027,27043,27052,27056,27068,27093,27103,27136,27148,27154,27163,27197,27225,27233,27254,27266,27302,27323,27380,27425,27430,27494,27499,27514,27515,27516,27534,27542,27561,27566,27571,27586,27595,27600,27602,27612,27656,27658,27663,27665,27679,27705,27827,27833,27856,27879,27945,27977,27992,28031,28032,28035,28041,28048,28079,28110,28129,28131,28153,28167,28179,28184,28189,28195,28226,28249,28250,28256,28276,28284,28285,28288,28299,28426,28451,28465,28469,28502,28518,28530,28541,28585,28694,28704,28717,28737,28739,28755,28816,28852,28864,28895,28900,28910,28911,28916,28995,29001,29022,29025,29026,29074,29088,29136,29201,29207,29208,29230,29238,29260,29265,29268,29287,29292,29380,29385,29389,29425,29511,29516,29517,29541,29543,29575,29577,29585,29603,29608,29612,29626,29641,29645,29646,29649,29655,29679,29706,29717,29739,29765,29782,29785,29791,29859,29867,29887,29920,30006,30020,30032,30084,30102,30105,30116,30137,30139,30140,30141,30147,30167,30183,30197,30223,30230,30243,30259,30282,30289,30299,30343,30348,30378,30382,30395,30407,30418,30420,30425,30431,30436,30462,30475,30487,30490,30494,30498,30499,30541,30585,30587,30590,30599,30612,30643,30695,30741,30752,30776,30803,30807,30835,30862,30867,30906,30932,30954,30961,31042,31087,31101,31154,31165,31183,31247,31266,31273,31282,31287,31302,31308,31315,31317,31319,31320,31403,31408,31409,31414,31448,31465,31511,31513,31517,31533,31545,31561,31565,31574,31585,31617,31618,31655,31664,31666,31671,31789,31791,31793,31797,31838,31870,31910,31912,31939,31953,31975,32015,32029,32042,32062,32070,32112,32131,32132,32137,32151,32159,32178,32186,32201,32224,32228,32247,32248,32262,32264,32319,32323,32327,32332,32342,32360,32367,32382,32415,32432,32497,32503,32532,32564,32581,32590,32603,32623,32652,32653,32710,32748,32759,32789,32817,32841,32843,32853,32858,32883,32950,32959,32962,32990,32997,33030,33074,33080,33085,33111,33113,33130,33178,33201,33204,33216,33231,33263,33318,33326,33370,33377,33389,33395,33420,33451,33452,33503,33513,33529,33555,33639,33664,33691,33700,33729,33737,33748,33772,33784,33794,33831,33891,33910,33928,33933,33939,33963,33971,33974,33981,33996,33997,34008,34078,34102,34134,34149,34156,34160,34178,34186,34191,34217,34221,34228,34245,34248,34249,34289,34317,34338,34367,34392,34395,34408,34425,34494,34520,34561,34590,34592,34597,34629,34658,34681,34682,34708,34717,34728,34751,34765,34798,34808,34809,34829,34834,34857,34860,34913,34944,34954,34973,34982,34987,35001,35036,35095,35103,35119,35128,35138,35141,35182,35188,35208,35220,35259,35270,35278,35284,35333,35360,35361,35389,35426,35469,35470,35476,35478,35479,35501,35544,35611,35628,35655,35662,35689,35702,35714,35731,35745,35775,35779,35785,35792,35819,35843,35851,35915,35929,35935,35938,35940,35955,35963,35979,35997,36018,36029,36031,36039,36046,36102,36104,36155,36158,36165,36166,36179,36195,36209,36214,36228,36229,36251,36263,36265,36279,36297,36299,36317,36321,36328,36333,36335,36353,36356,36358,36379,36433,36453,36475,36483,36502,36534,36544,36548,36549,36569,36574,36584,36585,36612,36616,36636,36651,36672,36701,36742,36743,36750,36760,36826,36831,36841,36922,36930,36934,36943,36959,36968,36989,37016,37018,37040,37047,37049,37051,37086,37106,37112,37152,37189,37193,37234,37248,37283,37287,37292,37302,37307,37312,37362,37374,37375,37387,37417,37418,37467,37481,37486,37503,37516,37537,37553,37566,37570,37591,37691,37693,37695,37701,37705,37724,37726,37777,37779,37804,37833,37834,37866,37869,37903,37907,37916,37923,37945,38006,38021,38036,38045,38069,38075,38091,38111,38138,38158,38161,38199,38211,38224,38268,38269,38295,38311,38313,38320,38325,38337,38350,38359,38367,38368,38376,38386,38392,38400,38430,38467,38470,38471,38494,38527,38541,38564,38566,38567,38593,38597,38607,38625,38654,38671,38679,38713,38748,38781,38788,38798,38848,38868,38930,38931,38934,38957,38969,38984,38990,39021,39044,39058,39067,39081,39113,39138,39156,39174,39185,39186,39189,39192,39196,39205,39212,39218,39219,39223,39228,39252,39294,39311,39325,39373,39375,39382,39401,39403,39470,39474,39514,39520,39521,39538,39554,39565,39598,39599,39605,39611,39623,39625,39626,39628,39634,39657,39670,39691,39700,39725,39727,39744,39755,39768,39781,39784,39792,39804,39814,39832,39833,39838,39866,39868,39935,39939,39963,39965,39985,39991,40029,40046,40050,40067,40079,40088,40100,40134,40136,40147,40161,40164,40183,40193,40202,40236,40252,40271,40272,40273,40281,40283,40284,40300,40305,40334,40335,40341,40358,40374,40381,40398,40427,40428,40447,40449,40465,40471,40479,40483,40484,40488,40490,40493,40508,40509,40527,40545,40547,40554,40578,40586,40622,40627,40650,40661,40672,40675,40681,40684,40705,40711,40715,40721,40722,40735,40751,40780,40788,40791,40808,40832,40840,40845,40846,40898,40916,40917,40929,40935,40942,40982,40988,40995,41000,41010,41011,41033,41039,41041,41042,41050,41067,41092,41093,41097,41099,41107,41115,41146,41162,41175,41182,41186,41201,41202,41217,41253,41282,41287,41289,41310,41319,41339,41347,41352,41360,41363,41392,41393,41403,41407,41413,41415,41434,41439,41445,41452,41454,41458,41496,41497,41509,41514,41516,41524,41545,41568,41576,41584,41592,41595,41636,41638,41652,41654,41672,41688,41694,41700,41708,41760,41765,41767,41778,41781,41814,41815,41826,41846,41863,41867,41886,41959,41966,41976,41979,41980,41991,42005,42027,42041,42081,42101,42121,42132,42139,42143,42197,42198,42213,42218,42220,42222,42228,42230,42236,42258,42296,42309,42329,42331,42332,42336,42353,42368,42377,42389,42391,42400,42424,42460,42465,42472,42493,42496,42504,42570,42590,42607,42623,42624,42626,42627,42630,42633,42637,42643,42660,42663,42683,42736,42744,42760,42767,42768,42777,42829,42865,42899,42908,42976,42985,43011,43028,43038,43054,43071,43074,43078,43101,43105,43132,43153,43170,43171,43174,43178,43179,43182,43190,43196,43209,43211,43228,43232,43236,43253,43270,43275,43286,43309,43317,43331,43337,43344,43366,43376,43418,43435,43444,43445,43468,43482,43488,43526,43570,43592,43596,43635,43636,43674,43677,43699,43702,43705,43708,43712,43714,43735,43739,43755,43770,43777,43779,43796,43828,43829,43847,43860,43869,43877,43888,43903,43914,43921,43932,43966,43985,44003,44004,44006,44017,44029,44033,44042,44045,44054,44064,44076,44085,44094,44106,44111,44121,44122,44123,44158,44161,44182,44189,44212,44215,44217,44225,44233,44241,44263,44304,44305,44313,44334,44342,44352,44372,44384,44389,44397,44411,44421,44430,44465,44467,44480,44486,44495,44517,44534,44540,44587,44588,44589,44593,44600,44603,44617,44621,44651,44652,44691,44694,44705,44722,44723,44729,44731,44743,44751,44761,44763,44797,44811,44823,44833,44854,44856,44880,44922,44926,44947,44955,44969,44973,45011,45043,45044,45046,45057,45058,45071,45074,45075,45089,45104,45108,45118,45119,45121,45125,45133,45136,45137,45159,45174,45187,45193,45211,45259,45278,45281,45300,45319,45333,45340,45371,45379,45384,45388,45389,45398,45436,45437,45441,45447,45448,45476,45481,45485,45495,45505,45507,45529,45534,45559,45561,45575,45581,45592,45599,45601,45609,45627,45638,45654,45662,45666,45669,45672,45707,45725,45734,45748,45750,45760,45764,45803,45806,45809,45817,45828,45832,45844,45845,45853,45873,45876,45896,45929,45936,45952,45953,45960,45992,45998,46024,46031,46045,46051,46074,46075,46090,46103,46120,46126,46159,46160,46186,46202,46207,46208,46212,46219,46223,46231,46235,46248,46255,46267,46332,46334,46335,46364,46386,46387,46395,46396,46418,46421,46466,46502,46513,46519,46521,46529,46544,46555,46577,46592,46607,46613,46626,46665,46669,46693,46708,46711,46737,46794,46811,46812,46819,46834,46842,46843,46844,46855,46862,46864,46868,46869,46875,46878,46883,46889,46895,46921,46930,46933,46945,46960,46963,46965,46966,46977,46978,46987,47007,47065,47069,47073,47074,47075,47078,47082,47088,47091,47094,47100,47104,47151,47164,47171,47186,47221,47222,47223,47233,47252,47261,47281,47286,47308,47316,47322,47324,47327,47336,47345,47381,47384,47396,47399,47404,47412,47423,47441,47446,47455,47458,47461,47481,47503,47509,47539,47551,47577,47588,47596,47599,47619,47620,47629,47630,47676,47691,47696,47699,47704,47743,47748,47788,47796,47845,47899,47902,47924,47937,47938,47946,47958,47984,48029,48037,48043,48045,48050,48065,48080,48117,48124,48172,48189,48196,48197,48199,48205,48211,48213,48215,48269,48270,48306,48317,48338,48345,48351,48398,48403,48416,48417,48421,48424,48425,48436,48499,48528,48545,48548,48561,48628,48635,48648,48649,48664,48674,48676,48694,48698,48702,48704,48719,48721,48725,48746,48750,48755,48767,48770,48773,48785,48790,48797,48831,48869,48871,48909,48918,48941,48945,48955,48967,48971,48994,49012,49055,49086,49101,49104,49108,49150,49163,49183,49190,49203,49209,49215,49219,49239,49247,49248,49249,49252,49263,49275,49284,49294,49300,49309,49314,49325,49352,49372,49375,49380,49401,49407,49410,49416,49422,49473,49492,49514,49523,49526,49539,49544,49581,49585,49588,49595,49599,49607,49610,49624,49627,49630,49644,49660,49677,49708,49709,49710,49733,49737,49749,49760,49785,49793,49795,49798,49803,49805,49811,49819,49821,49850,49859,49883,49892,49894,49897,49930,49938,49949,49950,49968,49984,49994,49996,49997,50005,50014,50017,50022,50040,50042,50056,50080,50083,50094,50097,50124,50144,50168,50189,50191,50199,50200,50207,50214,50247,50256,50272,50298,50300,50305,50331,50342,50358,50365,50368,50415,50421,50424,50446,50460,50462,50464,50467,50471,50514,50517,50528,50530,50531,50538,50542,50546,50548,50550,50553,50560,50579,50580,50586,50596,50618,50622,50656,50660,50675,50713,50718,50723,50731,50742,50745,50760,50766,50767,50774,50777,50790,50800,50812,50827,50841,50858,50859,50874,50884,50926,50928,50932,50933,50937,50944,50961,50977,50982,50996,50997,51004,51006,51013,51015,51035,51045,51070,51078,51093,51098,51114,51119,51154,51157,51158,51159,51173,51179,51198,51227,51245,51247,51265,51270,51285,51287,51288,51291,51299,51313,51319,51327,51335,51338,51345,51348,51354,51355,51382,51395,51414,51433,51439,51441,51448,51452,51467,51471,51505,51525,51540,51542,51555,51560,51565,51574,51575,51577,51588,51591,51595,51650,51651,51652,51660,51665,51672,51678,51688,51695,51708,51719,51725,51752,51760,51769,51774,51802,51811,51819,51837,51840,51842,51844,51853,51856,51883,51897,51976,51977,51993,52010,52013,52017,52040,52044,52057,52059,52077,52083,52103,52113,52134,52138,52149,52171,52172,52203,52211,52213,52215,52217,52228,52232,52234,52240,52263,52282,52286,52293,52296,52321,52344,52348,52356,52359,52367,52407,52413,52437,52439,52484,52504,52549,52553,52555,52565,52566,52574,52593,52596,52612,52650,52663,52670,52673,52679,52684,52711,52712,52718,52760,52791,52808,52812,52839,52842,52868,52882,52900,52902,52911,52913,52918,52929,52935,52964,52970,53002,53005,53018,53029,53032,53047,53064,53074,53097,53100,53109,53113,53138,53145,53173,53179,53180,53185,53231,53242,53251,53262,53263,53280,53294,53300,53318,53342,53371,53379,53401,53405,53407,53412,53425,53446,53449,53459,53464,53465,53471,53477,53490,53508,53515,53534,53545,53567,53573,53588,53609,53635,53657,53660,53677,53709,53719,53733,53747,53759,53786,53805,53812,53815,53822,53830,53835,53841,53850,53865,53866,53868,53876,53877,53894,53897,53900,53906,53911,53962,53968,53981,53998,54018,54038,54055,54096,54130,54145,54150,54180,54189,54193,54196,54219,54224,54230,54232,54255,54262,54267,54285,54289,54345,54374,54380,54386,54396,54408,54409,54423,54424,54426,54444,54449,54455,54458,54472,54476,54481,54487,54504,54510,54511,54514,54535,54543,54569,54573,54594,54625,54644,54668,54697,54710,54711,54722,54761,54764,54767,54779,54783,54819,54830,54849,54856,54865,54875,54890,54897,54967,54969,54991,55000,55004,55018,55023,55024,55035,55039,55078,55085,55092,55107,55111,55128,55132,55133,55134,55135,55156,55157,55180,55204,55227,55248,55258,55283,55300,55314,55323,55326,55367,55372,55381,55383,55431,55442,55444,55447,55451,55454,55460,55467,55493,55502,55510,55517,55521,55567,55580,55592,55621,55634,55645,55655,55659,55664,55668,55681,55682,55703,55709,55714,55738,55743,55747,55753,55770,55778,55782,55791,55800,55802,55811,55821,55826,55845,55860,55862,55887,55892,55896,55907,55916,55921,55932,55935,55946,55981,55993,55994,56018,56027,56030,56055,56076,56088,56097,56098,56116,56141,56166,56173,56178,56181,56188,56197,56211,56213,56235,56240,56277,56296,56305,56319,56382,56393,56434,56445,56450,56451,56456,56468,56499,56532,56546,56581,56604,56650,56668,56684,56686,56687,56719,56721,56738,56759,56762,56776,56777,56779,56789,56806,56810,56840,56846,56868,56876,56883,56899,56902,56908,56910,56912,56932,56973,56988,56991,56995,57001,57002,57007,57013,57017,57025,57028,57045,57052,57062,57063,57067,57068,57072,57094,57096,57133,57148,57156,57179,57180,57183,57213,57216,57217,57221,57229,57240,57252,57307,57316,57319,57350,57381,57393,57407,57409,57415,57427,57448,57449,57452,57454,57456,57471,57497,57540,57546,57577,57584,57589,57594,57599,57601,57625,57632,57634,57638,57652,57663,57687,57729,57739,57753,57758,57776,57804,57824,57827,57841,57846,57849,57850,57854,57877,57882,57890,57894,57904,57929,57938,57953,57974,57985,57986,57994,58002,58005,58012,58020,58024,58071,58073,58082,58084,58101,58107,58117,58118,58139,58145,58168,58185,58227,58233,58236,58239,58247,58250,58277,58281,58294,58306,58307,58312,58336,58337,58357,58373,58378,58383,58399,58409,58414,58438,58458,58466,58467,58471,58485,58494,58522,58524,58548,58573,58606,58612,58626,58649,58660,58665,58666,58702,58707,58709,58710,58715,58716,58728,58729,58736,58742,58746,58754,58765,58773,58777,58800,58808,58815,58817,58843,58844,58856,58859,58865,58875,58895,58897,58898,58924,58929,58933,58965,58968,58977,58987,58990,58991,59006,59011,59013,59018,59019,59046,59049,59065,59066,59077,59085,59097,59129,59158,59164,59170,59187,59201,59202,59205,59210,59212,59214,59221,59224,59228,59237,59241,59247,59251,59277,59288,59299,59305,59319,59324,59336,59359,59363,59379,59425,59427,59431,59432,59434,59454,59464,59480,59488,59491,59499,59504,59510,59524,59529,59536,59538,59582,59604,59621,59626,59627,59628,59646,59656,59657,59659,59682,59704,59718,59722,59738,59741,59769,59773,59783,59785,59820,59846,59860,59861,59895,59911,59934,59942,59956,59957,59985,59998,60017,60028,60063,60084,60107,60109,60120,60121,60123,60152,60159,60160,60164,60165,60169,60188,60204,60224,60233,60235,60263,60278,60296,60315,60316,60320,60329,60379,60423,60424,60432,60464,60475,60480,60502,60528,60535,60536,60553,60563,60566,60579,60590,60594,60597,60601,60602,60605,60635,60639,60646,60677,60682,60728,60731,60734,60746,60770,60792,60793,60804,60814,60835,60850,60890,60908,60920,60963,60982,60987,61003,61047,61051,61080,61083,61085,61086,61089,61102,61105,61129,61144,61165,61173,61192,61198,61199,61205,61214,61229,61253,61256,61266,61305,61309,61310,61345,61363,61373,61384,61426,61464,61468,61472,61479,61482,61484,61486,61490,61499,61500,61501,61507,61524,61525,61527,61536,61540,61557,61571,61575,61580,61587,61591,61605,61606,61616,61641,61666,61668,61674,61681,61696,61725,61735,61737,61749,61753,61757,61776,61816,61817,61845,61850,61854,61859,61861,61862,61870,61878,61889,61912,61932,61945,61949,61958,61983,61985,61986,61991,61998,62021,62046,62064,62077,62080,62083,62084,62104,62128,62138,62144,62153,62156,62162,62197,62199,62209,62222,62230,62231,62235,62244,62271,62284,62287,62295,62328,62364,62368,62406,62440,62450,62453,62462,62464,62475,62477,62478,62480,62481,62492,62571,62592,62666,62689,62699,62748,62755,62763,62768,62783,62787,62803,62804,62814,62816,62818,62822,62851,62854,62858,62867,62893,62894,62908,62912,62931,62940,62941,62946,62951,62952,62954,62955,62964,62979,62989,62997,63003,63017,63032,63062,63069,63092,63107,63112,63125,63144,63157,63159,63164,63174,63179,63187,63194,63220,63223,63246,63247,63288,63290,63300,63301,63329,63331,63334,63336,63338,63348,63355,63357,63367,63384,63401,63418,63432,63442,63444,63448,63471,63476,63486,63556,63558,63591,63598,63601,63602,63627,63628,63629,63639,63697,63710,63711,63716,63727,63729,63743,63748,63766,63774,63786,63810,63818,63823,63834,63837,63867,63870,63874,63904,63910,63922,63931,63939,63959,63973,63992,64011,64058,64077,64090,64096,64120,64125,64136,64162,64180,64183,64185,64191,64198,64209,64225,64228,64231,64255,64269,64275,64279,64288,64298,64319,64322,64325,64330,64343,64365,64366,64379,64382,64389,64390,64414,64420,64421,64427,64429,64432,64438,64445,64447,64458,64506,64534,64540,64544,64548,64557,64574,64579,64605,64611,64621,64626,64630,64652,64657,64674,64683,64717,64731,64738,64743,64744,64745,64758,64771,64789,64791,64792,64797,64802,64805,64831,64838,64839,64846,64848,64851,64858,64863,64866,64899,64902,64913,64947,64959,64967,64975,64996,65014,65046,65070,65085,65086,65101,65116,65122,65128,65140,65146,65153,65165,65170,65174,65184,65197,65221,65236,65242,65266,65276,65312,65322,65332,65383,65391,65413,65446,65453,65472,65475,65481,65486,65492,65494,65500,65533,65535,65539,65542,65546,65557,65559,65605,65626,65674,65679,65683,65704,65711,65715,65720,65723,65729,65810,65815,65850,65851,65863,65866,65868,65869,65881,65885,65910,65916,65928,65937,65939,65945,65947,65952,65971,65981,65982,65987,66005,66022,66044,66057,66065,66066,66069,66091,66122,66145,66213,66240,66263,66277,66287,66294,66295,66307,66317,66326,66338,66343,66354,66361,66372,66422,66431,66448,66449,66452,66454,66456,66460,66483,66490,66545,66554,66569,66579,66586,66591,66592,66599,66600,66605,66620,66621,66627,66629,66637,66639,66663,66667,66682,66688,66706,66715,66733,66734,66739,66777,66803,66812,66819,66834,66849,66864,66878,66937,66944,66961,66984,67010,67017,67024,67039,67040,67058,67063,67074,67093,67094,67109,67119,67144,67154,67172,67181,67188,67221,67226,67268,67271,67284,67310,67330,67331,67355,67356,67359,67401,67408,67412,67425,67440,67450,67451,67470,67474,67481,67487,67493,67498,67507,67518,67522,67526,67555,67558,67582,67594,67597,67604,67611,67635,67639,67646,67656,67687,67701,67704,67710,67723,67724,67734,67755,67782,67784,67788,67792,67798,67801,67811,67856,67865,67872,67884,67893,67898,67905,67926,67927,67934,67956,67968,67995,68006,68008,68012,68029,68039,68062,68110,68112,68118,68137,68150,68151,68152,68170,68175,68192,68217,68226,68259,68277,68294,68298,68314,68331,68332,68342,68361,68382,68387,68392,68400,68419,68424,68454,68474,68493,68509,68533,68550,68554,68560,68568,68575,68586,68608,68611,68612,68618,68719,68756,68760,68787,68799,68808,68809,68818,68846,68888,68898,68900,68906,68908,68938,68943,68954,68956,68970,68978,68992,68995,68999,69011,69019,69020,69035,69036,69065,69068,69071,69072,69073,69108,69109,69111,69114,69122,69123,69136,69163,69165,69180,69198,69202,69211,69215,69246,69248,69258,69270,69298,69304,69312,69315,69324,69340,69350,69351,69362,69376,69401,69410,69434,69466,69478,69499,69512,69524,69547,69592,69608,69622,69669,69679,69741,69748,69749,69761,69777,69779,69781,69819,69849,69866,69898,69943,69947,69964,69967,69984,69992,69993,69994,70004,70018,70031,70033,70048,70064,70073,70081,70087,70100,70109,70117,70147,70155,70173,70193,70224,70293,70297,70308,70322,70333,70335,70359,70386,70387,70411,70424,70445,70458,70469,70488,70512,70538,70541,70555,70556,70589,70594,70612,70618,70624,70637,70647,70673,70693,70718,70732,70745,70748,70770,70776,70781,70824,70826,70871,70881,70888,70913,70932,70938,70949,70982,70985,71007,71038,71043,71044,71047,71062,71078,71083,71085,71090,71098,71127,71168,71172,71174,71214,71221,71258,71268,71273,71305,71315,71336,71344,71345,71351,71376,71378,71381,71391,71395,71410,71411,71439,71450,71453,71462,71464,71471,71504,71517,71532,71552,71555,71581,71616,71620,71624,71637,71638,71649,71650,71658,71675,71682,71688,71694,71699,71714,71716,71722,71727,71734,71736,71740,71755,71762,71769,71803,71807,71816,71818,71825,71863,71870,71896,71912,71930,71941,71960,71963,71964,71984,72006,72029,72032,72033,72035,72039,72051,72062,72128,72129,72154,72158,72171,72206,72210,72215,72238,72243,72262,72308,72365,72368,72373,72401,72406,72425,72449,72482,72491,72495,72498,72505,72512,72518,72523,72571,72581,72598,72616,72629,72630,72669,72671,72676,72677,72682,72683,72689,72693,72694,72702,72711,72721,72735,72742,72759,72760,72771,72773,72809,72826,72849,72852,72855,72856,72862,72884,72916,72933,72961,72971,72975,72978,72994,73006,73028,73040,73047,73053,73057,73069,73072,73073,73081,73087,73088,73090,73092,73100,73114,73122,73127,73160,73243,73244,73247,73269,73288,73317,73330,73338,73342,73369,73375,73386,73405,73419,73420,73429,73433,73436,73440,73445,73449,73482,73483,73514,73522,73526,73529,73561,73594,73602,73606,73637,73642,73656,73657,73660,73674,73688,73692,73695,73708,73714,73722,73731,73739,73784,73794,73805,73808,73810,73812,73824,73836,73839,73846,73856,73862,73867,73876,73903,73904,73906,73928,73934,73939,73940,73954,73966,73973,73976,73994,74001,74017,74022,74036,74043,74046,74059,74065,74076,74083,74088,74094,74110,74116,74117,74124,74125,74174,74191,74213,74216,74219,74235,74236,74237,74251,74258,74294,74302,74321,74327,74330,74348,74391,74399,74405,74415,74418,74426,74430,74450,74481,74490,74527,74539,74550,74604,74606,74609,74618,74630,74641,74642,74688,74706,74709,74710,74715,74725,74727,74791,74792,74793,74801,74821,74834,74869,74871,74896,74898,74919,74921,74922,74943,74953,74956,74969,74973,74995,74997,75007,75041,75046,75070,75095,75113,75124,75129,75169,75212,75223,75228,75237,75239,75277,75280,75281,75288,75307,75321,75349,75362,75363,75366,75369,75375,75389,75393,75398,75403,75434,75437,75457,75481,75482,75506,75517,75544,75550,75561,75575,75591,75594,75596,75603,75611,75621,75643,75644,75650,75652,75661,75665,75696,75709,75723,75725,75735,75736,75758,75777,75792,75798,75803,75808,75828,75834,75840,75841,75844,75850,75857,75865,75895,75896,75904,75914,75945,75949,75978,75985,76023,76032,76039,76074,76075,76096,76105,76135,76149,76157,76161,76170,76186,76193,76195,76199,76202,76209,76214,76221,76233,76253,76276,76286,76288,76297,76314,76346,76357,76368,76391,76396,76428,76434,76452,76475,76476,76477,76508,76534,76560,76565,76571,76599,76622,76627,76629,76635,76659,76692,76702,76704,76720,76752,76755,76813,76823,76825,76828,76836,76839,76849,76909,76920,76928,76985,77001,77012,77017,77023,77027,77045,77047,77069,77070,77074,77077,77125,77128,77153,77214,77243,77248,77258,77259,77260,77268,77275,77277,77290,77294,77315,77333,77353,77363,77375,77392,77393,77395,77401,77405,77409,77416,77420,77444,77454,77456,77458,77461,77466,77478,77487,77528,77529,77542,77547,77549,77560,77565,77567,77578,77579,77580,77583,77589,77595,77596,77606,77612,77632,77641,77651,77658,77667,77694,77701,77713,77732,77762,77764,77780,77790,77793,77802,77839,77847,77850,77858,77864,77867,77882,77892,77896,77905,77907,77912,77915,77921,77931,77935,77937,77951,77959,77962,77978,78018,78031,78035,78063,78066,78073,78080,78091,78102,78104,78124,78132,78150,78171,78179,78182,78195,78215,78243,78292,78299,78301,78350,78366,78387,78395,78401,78403,78404,78405,78417,78420,78425,78428,78435,78447,78458,78505,78511,78514,78518,78520,78524,78552,78570,78604,78608,78639,78648,78651,78663,78695,78700,78713,78723,78739,78773,78780,78794,78808,78812,78828,78844,78863,78875,78881,78883,78906,78920,78923,78937,78939,78942,78953,78958,78960,78970,79009,79019,79023,79031,79061,79089,79093,79100,79104,79106,79112,79141,79143,79160,79164,79194,79214,79216,79219,79230,79253,79278,79289,79305,79311,79316,79318,79375,79379,79401,79424,79438,79443,79454,79468,79475,79486,79493,79530,79537,79538,79539,79544,79546,79555,79559,79564,79594,79607,79621,79631,79632,79636,79655,79667,79672,79678,79681,79684,79692,79717,79719,79722,79727,79750,79755,79772,79783,79787,79824,79828,79829,79864,79922,79962,79967,79978,79980,79990</td>
+<td style="text-align: left;">4,9,27,31,44,75,85,95,98,143,152,182,192,224,226,242,247,250,252,290,313,315,320,325,361,362,363,372,394,413,414,418,453,473,479,518,523,525,540,603,609,611,626,628,632,633,657,662,663,695,706,715,724,731,743,793,804,808,834,836,868,907,910,926,970,983,997,1051,1054,1097,1100,1115,1141,1157,1172,1174,1178,1226,1228,1231,1240,1245,1278,1283,1300,1347,1350,1376,1395,1407,1424,1449,1450,1482,1574,1585,1593,1599,1610,1613,1626,1643,1647,1690,1750,1751,1762,1776,1813,1832,1866,1872,1888,1907,1919,1950,1952,1956,1968,1975,1990,1994,2068,2098,2115,2122,2127,2148,2151,2160,2179,2181,2197,2234,2239,2242,2260,2289,2291,2322,2330,2338,2362,2370,2378,2422,2424,2463,2489,2507,2534,2536,2581,2585,2605,2637,2638,2644,2645,2656,2657,2674,2677,2697,2733,2745,2755,2773,2774,2790,2816,2838,2863,2877,2929,2940,2952,2954,2967,2971,2978,2994,2995,3013,3032,3044,3063,3075,3109,3117,3133,3149,3168,3173,3176,3185,3203,3229,3230,3277,3317,3321,3334,3361,3373,3384,3385,3387,3409,3436,3450,3504,3513,3540,3542,3543,3548,3554,3588,3607,3628,3642,3689,3695,3718,3725,3738,3766,3813,3870,3892,3908,3930,3932,3954,3976,3994,4004,4012,4032,4043,4061,4065,4070,4117,4129,4132,4169,4177,4194,4217,4233,4239,4248,4252,4271,4279,4307,4323,4345,4361,4363,4375,4377,4393,4414,4433,4441,4468,4473,4482,4486,4504,4517,4543,4551,4558,4616,4626,4631,4747,4752,4767,4778,4786,4818,4835,4837,4882,4883,4893,4906,4910,4912,4914,4923,4954,5004,5010,5018,5034,5050,5053,5069,5089,5097,5106,5109,5137,5157,5219,5276,5281,5302,5304,5313,5315,5335,5342,5349,5363,5368,5381,5388,5391,5408,5411,5418,5428,5484,5488,5499,5524,5527,5528,5575,5590,5594,5622,5623,5651,5660,5677,5700,5716,5733,5735,5785,5793,5801,5810,5820,5832,5868,5875,5899,5978,5992,5994,6001,6005,6047,6057,6093,6116,6134,6138,6149,6157,6173,6213,6250,6293,6301,6310,6312,6361,6367,6396,6398,6414,6418,6445,6446,6456,6489,6490,6549,6580,6596,6599,6618,6646,6667,6681,6727,6782,6786,6789,6792,6846,6885,6894,6908,6920,6925,6928,6930,6937,6938,6962,6982,7035,7055,7057,7074,7096,7127,7137,7174,7190,7197,7199,7203,7207,7230,7245,7246,7255,7264,7302,7320,7322,7323,7328,7341,7359,7431,7433,7444,7453,7456,7467,7501,7522,7523,7559,7571,7585,7587,7588,7630,7632,7635,7639,7646,7649,7657,7671,7708,7759,7779,7793,7821,7827,7838,7844,7867,7872,7880,7887,7896,7935,7937,7986,8007,8010,8125,8126,8132,8214,8230,8243,8335,8341,8429,8452,8454,8459,8483,8492,8553,8604,8605,8607,8611,8618,8631,8633,8637,8650,8663,8673,8736,8760,8762,8801,8802,8817,8820,8829,8830,8831,8837,8850,8869,8910,8927,8972,8973,9004,9009,9022,9040,9055,9061,9068,9070,9113,9118,9136,9140,9147,9176,9210,9235,9245,9270,9277,9283,9299,9300,9306,9314,9363,9371,9400,9406,9479,9501,9507,9511,9518,9543,9544,9590,9597,9600,9607,9621,9658,9660,9669,9701,9703,9729,9735,9736,9737,9746,9760,9770,9775,9802,9821,9823,9835,9867,9871,9882,9954,9959,9968,9975,9988,10004,10020,10028,10047,10051,10083,10105,10115,10154,10212,10217,10238,10277,10281,10288,10298,10320,10333,10466,10491,10523,10588,10593,10632,10642,10644,10649,10685,10695,10697,10701,10746,10751,10759,10763,10767,10772,10816,10817,10830,10834,10838,10874,10877,10878,10882,10889,10896,10937,10946,10967,11001,11022,11026,11034,11049,11064,11074,11134,11166,11175,11176,11193,11204,11206,11208,11231,11235,11243,11275,11277,11288,11297,11321,11331,11334,11337,11343,11347,11348,11359,11377,11392,11397,11437,11442,11450,11460,11468,11481,11493,11519,11553,11559,11562,11603,11607,11610,11620,11627,11632,11640,11648,11686,11712,11723,11730,11742,11750,11774,11811,11841,11843,11848,11876,11883,11884,11924,11950,11977,11996,12004,12024,12039,12043,12065,12072,12077,12081,12092,12101,12103,12109,12131,12134,12153,12154,12164,12170,12252,12254,12298,12385,12394,12399,12420,12437,12443,12467,12485,12503,12504,12557,12605,12606,12663,12664,12673,12680,12762,12779,12810,12907,12922,12935,12939,12943,13015,13037,13041,13086,13088,13111,13126,13153,13154,13168,13183,13235,13250,13269,13276,13303,13305,13327,13350,13372,13421,13428,13447,13452,13461,13468,13474,13479,13488,13495,13513,13518,13525,13572,13591,13615,13626,13636,13643,13673,13693,13696,13703,13712,13719,13745,13747,13748,13755,13762,13764,13765,13780,13789,13802,13806,13807,13818,13841,13867,13900,13927,13938,13941,13954,13968,13974,13991,13998,14000,14015,14017,14022,14038,14049,14061,14083,14094,14130,14136,14145,14147,14171,14187,14191,14212,14216,14245,14247,14256,14277,14298,14313,14356,14371,14402,14425,14426,14437,14448,14511,14513,14539,14543,14550,14560,14564,14573,14585,14586,14632,14641,14678,14730,14742,14743,14749,14763,14784,14786,14795,14797,14809,14810,14822,14849,14852,14853,14860,14888,14895,14901,14903,14908,14911,14919,14920,14932,14940,14951,14967,14979,15013,15032,15040,15059,15069,15113,15117,15151,15168,15172,15204,15231,15248,15259,15268,15276,15313,15317,15334,15346,15358,15361,15362,15400,15416,15436,15441,15497,15505,15515,15546,15550,15565,15597,15609,15630,15634,15636,15639,15650,15659,15683,15693,15696,15727,15737,15741,15772,15789,15797,15799,15816,15835,15840,15847,15883,15891,15923,15932,15938,15940,15964,15965,15977,15983,16021,16033,16048,16067,16080,16100,16102,16121,16123,16154,16228,16239,16250,16261,16266,16287,16297,16303,16313,16314,16317,16367,16369,16379,16381,16398,16405,16411,16416,16443,16451,16452,16461,16468,16498,16505,16512,16531,16575,16591,16656,16671,16712,16716,16726,16731,16736,16746,16765,16773,16787,16797,16808,16818,16830,16835,16862,16868,16873,16880,16891,16917,16926,16973,16987,16998,16999,17008,17079,17084,17085,17095,17105,17130,17133,17138,17150,17155,17182,17197,17202,17205,17221,17231,17234,17236,17272,17275,17279,17291,17373,17375,17379,17384,17390,17481,17549,17570,17579,17606,17624,17657,17662,17703,17709,17715,17740,17781,17788,17789,17793,17799,17801,17810,17814,17845,17858,17862,17863,17896,17913,17922,17947,17960,17978,18016,18018,18044,18051,18109,18128,18141,18152,18159,18181,18182,18240,18264,18275,18291,18293,18301,18313,18332,18333,18337,18345,18382,18390,18447,18460,18481,18486,18497,18518,18520,18522,18532,18547,18554,18588,18599,18637,18655,18669,18671,18712,18715,18717,18744,18753,18815,18817,18834,18845,18851,18932,18933,18936,18950,18957,18968,18970,18972,19020,19030,19047,19059,19064,19075,19080,19144,19146,19156,19192,19208,19247,19257,19276,19285,19297,19302,19315,19368,19410,19421,19427,19435,19452,19467,19471,19500,19517,19518,19520,19536,19543,19546,19553,19568,19582,19592,19593,19603,19649,19683,19692,19757,19791,19812,19825,19888,19890,19911,19914,19916,19919,19921,19940,19962,19974,20017,20018,20040,20043,20051,20114,20184,20204,20208,20214,20244,20272,20287,20342,20396,20435,20452,20462,20465,20473,20481,20490,20532,20549,20565,20589,20597,20602,20622,20644,20672,20675,20676,20708,20738,20771,20789,20811,20854,20877,20899,20944,20956,20959,20969,20974,20979,20983,21024,21032,21034,21079,21093,21118,21119,21155,21157,21189,21204,21206,21209,21217,21224,21241,21277,21286,21304,21311,21333,21346,21361,21363,21406,21409,21414,21441,21453,21456,21484,21486,21515,21536,21548,21554,21566,21584,21640,21682,21696,21740,21787,21805,21821,21846,21890,21922,21939,21945,21966,21974,21975,22005,22031,22037,22061,22062,22065,22088,22099,22103,22108,22113,22120,22126,22129,22154,22156,22222,22224,22235,22248,22256,22270,22271,22282,22310,22328,22329,22331,22347,22348,22364,22377,22381,22382,22406,22430,22466,22474,22505,22527,22539,22563,22599,22601,22603,22610,22611,22612,22642,22644,22652,22675,22713,22714,22724,22728,22777,22789,22793,22804,22809,22813,22815,22816,22845,22848,22864,22867,22873,22893,22911,22922,22930,22950,22964,22977,22983,22989,23007,23013,23032,23062,23066,23103,23144,23162,23176,23194,23260,23262,23293,23354,23371,23377,23420,23436,23441,23447,23451,23453,23467,23505,23511,23512,23515,23542,23544,23556,23567,23568,23569,23577,23588,23594,23619,23624,23642,23671,23712,23717,23718,23755,23760,23786,23787,23823,23870,23877,23886,23912,23923,23965,23986,24003,24022,24028,24029,24032,24059,24069,24091,24099,24121,24158,24159,24167,24168,24170,24234,24237,24244,24246,24281,24300,24318,24329,24331,24368,24390,24436,24457,24469,24480,24498,24503,24512,24520,24534,24566,24568,24574,24629,24661,24664,24669,24680,24686,24710,24724,24770,24771,24774,24826,24830,24843,24890,24895,24944,24950,24969,24995,25017,25056,25084,25109,25123,25124,25129,25158,25162,25168,25176,25178,25180,25204,25207,25218,25235,25242,25263,25284,25299,25323,25369,25382,25401,25421,25424,25445,25486,25508,25518,25527,25555,25578,25589,25601,25606,25625,25636,25643,25652,25663,25672,25674,25676,25694,25726,25729,25736,25756,25784,25800,25853,25879,25924,25996,26024,26074,26089,26101,26110,26123,26128,26159,26200,26231,26238,26303,26313,26328,26345,26356,26371,26375,26380,26381,26386,26403,26411,26432,26443,26447,26449,26450,26459,26464,26492,26504,26515,26516,26528,26554,26572,26584,26587,26612,26639,26659,26670,26696,26717,26741,26746,26751,26760,26771,26789,26796,26817,26825,26834,26856,26879,26881,26917,26925,26930,26944,26947,26957,26974,26977,26991,27012,27027,27043,27052,27056,27068,27080,27093,27136,27147,27148,27149,27154,27197,27225,27226,27233,27242,27271,27302,27316,27323,27340,27383,27399,27408,27425,27459,27484,27494,27514,27515,27516,27530,27542,27554,27561,27564,27566,27575,27586,27589,27600,27602,27656,27663,27665,27674,27679,27684,27694,27700,27747,27827,27842,27846,27856,27876,27929,27964,27992,28014,28031,28035,28048,28079,28101,28110,28119,28131,28153,28167,28179,28189,28195,28219,28227,28249,28250,28256,28276,28279,28284,28285,28286,28302,28307,28361,28411,28426,28451,28465,28468,28476,28481,28497,28502,28509,28518,28541,28585,28601,28657,28673,28699,28704,28717,28739,28755,28771,28786,28816,28841,28846,28868,28911,28916,28921,28940,28952,28977,28995,28999,29025,29039,29056,29074,29088,29155,29207,29208,29228,29260,29268,29287,29291,29292,29380,29389,29406,29425,29431,29460,29490,29506,29511,29517,29519,29524,29533,29543,29575,29585,29603,29611,29612,29613,29631,29649,29655,29679,29706,29717,29765,29767,29769,29782,29785,29798,29951,29980,30006,30020,30043,30061,30084,30105,30116,30139,30140,30147,30167,30197,30230,30243,30258,30259,30282,30289,30299,30340,30343,30348,30355,30378,30408,30418,30431,30436,30490,30494,30499,30500,30520,30541,30542,30548,30587,30635,30641,30643,30695,30741,30752,30773,30776,30810,30813,30843,30867,30906,30932,30954,30961,30982,30995,31000,31017,31019,31042,31046,31101,31117,31145,31154,31165,31174,31183,31218,31228,31240,31247,31261,31266,31273,31280,31282,31302,31314,31348,31365,31370,31401,31403,31409,31424,31464,31473,31487,31513,31517,31533,31541,31561,31574,31580,31617,31618,31662,31666,31687,31741,31742,31789,31791,31793,31811,31829,31838,31953,31967,32015,32042,32053,32062,32070,32079,32080,32106,32107,32131,32132,32136,32137,32151,32153,32159,32178,32186,32188,32201,32209,32210,32223,32224,32226,32228,32247,32248,32262,32264,32297,32308,32319,32323,32332,32360,32382,32415,32438,32491,32497,32503,32505,32508,32527,32532,32564,32581,32584,32590,32596,32614,32644,32662,32679,32682,32710,32748,32759,32817,32838,32841,32843,32858,32935,32950,32957,32959,32962,32966,32982,32990,32991,32997,33030,33040,33041,33074,33078,33080,33085,33111,33113,33178,33198,33201,33204,33206,33216,33254,33263,33326,33352,33377,33389,33400,33401,33457,33513,33555,33557,33606,33639,33689,33707,33724,33734,33748,33784,33794,33813,33814,33866,33883,33887,33891,33928,33933,33969,33971,33974,33997,34008,34032,34040,34064,34078,34089,34106,34107,34149,34155,34156,34158,34160,34178,34186,34218,34228,34237,34265,34289,34349,34354,34367,34395,34454,34487,34491,34520,34539,34561,34597,34627,34629,34647,34658,34682,34729,34749,34751,34765,34789,34798,34809,34829,34834,34852,34857,34860,34876,34913,34944,34949,34973,34982,35001,35015,35020,35036,35056,35090,35128,35141,35160,35182,35188,35202,35220,35239,35259,35270,35278,35279,35333,35337,35360,35361,35389,35409,35426,35469,35478,35479,35506,35509,35520,35544,35555,35587,35595,35606,35628,35643,35655,35659,35662,35689,35731,35733,35745,35752,35768,35775,35792,35802,35819,35825,35833,35838,35843,35851,35872,35929,35937,35938,35955,35979,35992,35997,36015,36018,36019,36029,36031,36039,36094,36102,36152,36155,36165,36166,36176,36177,36179,36181,36195,36197,36209,36214,36219,36228,36263,36265,36279,36317,36321,36328,36330,36333,36346,36353,36358,36364,36365,36384,36386,36402,36425,36475,36478,36483,36504,36544,36548,36569,36584,36593,36595,36612,36647,36653,36659,36663,36672,36673,36679,36701,36742,36743,36750,36760,36787,36798,36805,36808,36818,36820,36831,36835,36853,36902,36907,36922,36934,36943,36972,36989,37018,37042,37047,37050,37075,37078,37079,37087,37108,37112,37122,37123,37152,37157,37169,37217,37220,37234,37287,37292,37295,37302,37307,37374,37375,37387,37464,37467,37481,37486,37516,37531,37537,37556,37572,37596,37691,37693,37695,37715,37726,37728,37761,37804,37833,37839,37869,37903,37907,37916,37919,37923,37932,37943,37979,37997,38021,38036,38042,38044,38045,38046,38053,38069,38075,38089,38127,38158,38161,38211,38224,38253,38269,38311,38320,38322,38325,38337,38349,38350,38359,38376,38400,38428,38470,38471,38494,38564,38566,38567,38593,38595,38597,38601,38620,38625,38648,38671,38679,38696,38713,38748,38781,38788,38798,38829,38848,38868,38879,38882,38927,38931,38934,38939,38951,38969,38984,38990,38998,39012,39021,39044,39068,39070,39085,39113,39138,39142,39143,39156,39185,39186,39189,39192,39196,39205,39207,39219,39237,39252,39277,39311,39325,39373,39382,39402,39403,39446,39474,39514,39520,39525,39530,39538,39554,39565,39566,39581,39598,39599,39602,39604,39611,39623,39628,39634,39657,39665,39670,39691,39727,39744,39750,39768,39773,39781,39784,39792,39804,39814,39832,39833,39837,39868,39871,39963,39965,39985,39991,40029,40048,40079,40088,40130,40134,40136,40143,40147,40155,40184,40189,40193,40235,40236,40237,40271,40281,40283,40284,40305,40310,40334,40341,40342,40355,40358,40374,40398,40401,40428,40447,40449,40465,40466,40471,40473,40479,40480,40484,40490,40508,40509,40513,40514,40527,40545,40547,40554,40622,40625,40627,40643,40650,40654,40661,40675,40681,40700,40705,40707,40711,40721,40730,40735,40751,40780,40781,40788,40807,40815,40832,40840,40850,40861,40891,40898,40916,40917,40929,40935,40937,40942,40952,40962,40969,40988,41000,41007,41010,41011,41020,41042,41048,41050,41059,41067,41072,41090,41097,41099,41107,41108,41115,41146,41161,41175,41182,41186,41202,41214,41217,41253,41282,41287,41310,41319,41339,41347,41360,41392,41403,41407,41408,41415,41419,41452,41458,41496,41500,41509,41510,41513,41514,41516,41524,41568,41584,41595,41647,41654,41655,41670,41688,41694,41700,41708,41757,41760,41781,41789,41826,41835,41846,41863,41879,41880,41910,41935,41959,41968,41976,41991,42005,42027,42041,42055,42056,42101,42125,42132,42138,42139,42143,42168,42171,42198,42207,42213,42218,42220,42221,42230,42258,42308,42329,42332,42336,42353,42368,42377,42389,42390,42391,42400,42451,42460,42465,42472,42493,42502,42513,42545,42561,42579,42607,42623,42627,42630,42633,42637,42642,42643,42644,42657,42660,42663,42666,42683,42701,42722,42760,42767,42768,42777,42800,42848,42868,42899,42908,42936,42946,42955,42961,42982,42985,42988,42990,43017,43022,43028,43038,43051,43054,43069,43071,43074,43075,43101,43105,43114,43129,43132,43143,43152,43153,43161,43162,43171,43174,43178,43182,43190,43196,43209,43228,43232,43253,43270,43275,43309,43315,43317,43331,43337,43344,43347,43366,43376,43379,43390,43398,43418,43424,43426,43445,43446,43468,43472,43474,43482,43522,43526,43539,43545,43570,43572,43592,43594,43597,43600,43635,43641,43657,43666,43674,43689,43695,43702,43705,43708,43712,43714,43739,43746,43759,43770,43779,43795,43796,43807,43829,43839,43860,43862,43869,43881,43893,43914,43921,43941,43985,43989,44003,44006,44017,44029,44033,44042,44051,44054,44085,44094,44106,44113,44121,44122,44150,44153,44156,44158,44161,44187,44189,44212,44215,44225,44233,44241,44263,44304,44313,44321,44330,44334,44342,44346,44352,44360,44397,44426,44430,44450,44467,44480,44491,44534,44540,44543,44549,44586,44587,44589,44593,44600,44617,44621,44631,44647,44648,44655,44691,44694,44705,44723,44735,44738,44743,44751,44761,44763,44766,44768,44781,44789,44797,44811,44833,44846,44854,44856,44872,44909,44912,44926,44943,44955,44964,44967,44969,44970,44989,44994,44997,45011,45033,45036,45043,45057,45065,45074,45075,45089,45118,45126,45133,45174,45175,45176,45203,45224,45227,45244,45253,45254,45278,45300,45319,45332,45333,45364,45365,45366,45375,45388,45389,45391,45398,45405,45412,45413,45436,45437,45441,45447,45466,45474,45485,45495,45505,45513,45529,45534,45554,45559,45569,45575,45581,45588,45592,45599,45601,45606,45618,45654,45661,45666,45669,45672,45699,45705,45709,45715,45723,45725,45734,45743,45755,45764,45774,45789,45790,45817,45828,45830,45844,45853,45865,45874,45896,45900,45911,45936,45953,45955,45960,45985,45998,46017,46024,46031,46045,46072,46074,46090,46093,46103,46120,46130,46159,46160,46164,46202,46207,46219,46231,46248,46250,46255,46261,46265,46267,46305,46311,46329,46331,46332,46335,46364,46386,46387,46395,46396,46421,46428,46445,46460,46488,46502,46507,46519,46529,46544,46555,46579,46592,46601,46605,46606,46607,46613,46624,46669,46683,46688,46691,46693,46705,46708,46711,46733,46737,46746,46773,46774,46786,46794,46799,46811,46812,46819,46834,46854,46862,46864,46869,46875,46878,46883,46889,46895,46916,46921,46933,46945,46960,46966,46985,47065,47069,47073,47074,47078,47082,47091,47094,47100,47117,47142,47147,47151,47171,47215,47221,47222,47223,47226,47232,47265,47272,47281,47297,47299,47316,47322,47324,47336,47381,47384,47385,47396,47399,47412,47423,47436,47440,47441,47442,47446,47464,47481,47501,47509,47523,47537,47553,47567,47573,47579,47582,47588,47596,47599,47629,47630,47650,47676,47698,47699,47704,47737,47738,47743,47748,47762,47787,47816,47845,47871,47880,47899,47902,47905,47924,47937,47946,47958,47983,47984,48013,48017,48049,48050,48065,48076,48080,48098,48124,48131,48172,48189,48196,48197,48198,48199,48215,48230,48269,48281,48306,48317,48330,48345,48351,48403,48416,48417,48424,48425,48426,48436,48437,48485,48499,48503,48534,48545,48548,48555,48560,48561,48578,48628,48635,48648,48649,48664,48673,48674,48694,48698,48702,48704,48719,48721,48725,48734,48746,48747,48755,48762,48767,48785,48797,48821,48831,48837,48862,48868,48871,48875,48883,48891,48909,48918,48941,48945,48949,48965,48968,48971,49012,49033,49055,49086,49094,49101,49142,49150,49163,49165,49177,49183,49190,49195,49203,49209,49247,49248,49249,49251,49263,49275,49280,49294,49314,49320,49325,49329,49334,49372,49374,49375,49380,49398,49401,49422,49430,49473,49478,49485,49487,49492,49514,49523,49526,49527,49529,49539,49544,49580,49581,49585,49599,49609,49610,49618,49627,49630,49666,49689,49690,49706,49708,49709,49717,49733,49735,49737,49749,49760,49761,49773,49793,49795,49798,49803,49805,49811,49819,49834,49850,49859,49875,49883,49895,49897,49919,49926,49938,49950,49960,49968,49996,50002,50022,50053,50056,50064,50080,50083,50094,50097,50111,50122,50124,50127,50137,50144,50189,50191,50199,50200,50202,50207,50214,50238,50256,50291,50298,50300,50305,50315,50318,50339,50342,50358,50398,50405,50406,50411,50424,50446,50462,50466,50467,50471,50498,50514,50522,50524,50528,50530,50538,50542,50546,50548,50550,50553,50560,50579,50580,50622,50635,50718,50723,50725,50731,50732,50760,50766,50767,50771,50777,50800,50805,50809,50810,50811,50824,50841,50858,50859,50876,50909,50926,50928,50932,50933,50964,50982,50997,51004,51005,51013,51015,51026,51045,51070,51093,51105,51111,51130,51133,51154,51158,51159,51173,51178,51179,51201,51222,51223,51245,51251,51285,51287,51291,51297,51299,51308,51313,51325,51335,51348,51354,51355,51363,51382,51395,51397,51414,51416,51418,51425,51433,51441,51448,51467,51471,51479,51501,51516,51517,51525,51528,51540,51555,51560,51565,51575,51577,51591,51595,51597,51627,51650,51651,51660,51672,51678,51725,51729,51756,51760,51774,51793,51802,51807,51811,51825,51837,51841,51844,51853,51854,51856,51882,51883,51889,51897,51912,51970,51983,51985,52010,52017,52029,52040,52044,52054,52059,52077,52083,52138,52153,52158,52167,52171,52172,52175,52184,52197,52203,52211,52213,52217,52228,52234,52240,52282,52286,52293,52295,52296,52317,52321,52332,52347,52367,52376,52379,52400,52439,52448,52484,52514,52549,52553,52565,52586,52596,52604,52612,52650,52663,52666,52670,52684,52737,52746,52760,52791,52808,52812,52821,52822,52839,52882,52900,52911,52918,52935,52949,52964,53005,53007,53022,53030,53074,53086,53100,53109,53119,53122,53148,53155,53173,53180,53183,53190,53223,53239,53255,53263,53264,53280,53301,53306,53318,53342,53367,53371,53387,53393,53401,53405,53407,53412,53422,53435,53446,53449,53464,53471,53477,53487,53490,53495,53499,53508,53513,53534,53545,53567,53573,53589,53606,53609,53628,53646,53649,53657,53677,53678,53681,53707,53719,53733,53774,53785,53790,53805,53815,53818,53827,53830,53844,53850,53865,53868,53869,53877,53881,53887,53892,53894,53897,53900,53906,53911,53916,53951,53956,53962,53968,53981,54018,54031,54045,54055,54060,54069,54070,54073,54096,54113,54125,54130,54132,54138,54145,54160,54180,54189,54194,54197,54219,54232,54259,54289,54293,54303,54306,54315,54345,54380,54385,54386,54396,54408,54411,54423,54424,54426,54449,54458,54472,54476,54481,54487,54510,54511,54535,54541,54543,54573,54594,54608,54615,54635,54668,54686,54697,54706,54711,54722,54764,54767,54779,54783,54795,54815,54849,54856,54865,54890,54941,54948,54962,54969,54974,54991,55000,55002,55004,55011,55018,55023,55024,55035,55039,55058,55060,55085,55092,55099,55100,55107,55111,55114,55123,55128,55132,55133,55134,55135,55148,55153,55156,55157,55180,55205,55227,55258,55283,55300,55306,55314,55326,55369,55372,55376,55381,55383,55441,55442,55444,55460,55464,55467,55493,55496,55500,55502,55509,55510,55521,55525,55554,55565,55580,55590,55592,55619,55621,55634,55645,55659,55664,55682,55703,55709,55710,55713,55714,55718,55719,55732,55753,55756,55770,55772,55777,55778,55782,55791,55802,55823,55826,55831,55835,55841,55860,55887,55889,55892,55896,55907,55908,55916,55921,55932,55935,55946,55964,55966,55993,55994,56018,56055,56057,56076,56092,56116,56154,56173,56176,56181,56183,56188,56197,56211,56213,56215,56235,56275,56287,56296,56301,56312,56354,56382,56393,56416,56425,56445,56449,56450,56456,56468,56474,56483,56499,56532,56540,56546,56564,56581,56583,56604,56612,56616,56631,56650,56651,56663,56666,56668,56676,56684,56686,56687,56693,56707,56715,56718,56759,56777,56779,56788,56789,56806,56810,56811,56840,56846,56876,56883,56899,56903,56908,56912,56913,56932,56973,56988,56991,57001,57002,57013,57017,57025,57028,57045,57048,57051,57052,57062,57063,57064,57067,57068,57072,57095,57096,57133,57148,57149,57156,57179,57183,57190,57193,57213,57216,57217,57225,57229,57236,57252,57254,57272,57342,57361,57375,57376,57381,57393,57415,57421,57449,57456,57473,57485,57494,57496,57497,57530,57540,57546,57549,57567,57577,57589,57594,57595,57601,57604,57620,57625,57634,57652,57663,57666,57675,57681,57686,57687,57753,57754,57758,57776,57784,57804,57824,57827,57841,57845,57846,57850,57854,57877,57890,57893,57901,57904,57908,57916,57920,57929,57971,57974,57985,57986,57994,58005,58012,58020,58024,58037,58046,58057,58069,58073,58079,58117,58137,58145,58160,58173,58185,58227,58233,58236,58247,58250,58253,58277,58281,58306,58336,58357,58377,58380,58383,58399,58409,58417,58447,58450,58458,58466,58471,58485,58494,58501,58548,58565,58569,58573,58575,58614,58626,58634,58646,58649,58660,58665,58666,58667,58702,58710,58715,58716,58736,58742,58754,58773,58777,58799,58800,58824,58828,58830,58843,58844,58859,58870,58875,58888,58895,58897,58898,58909,58929,58931,58933,58934,58945,58962,58965,58968,58977,58990,58991,59006,59013,59018,59019,59029,59046,59049,59050,59064,59065,59077,59085,59092,59097,59117,59122,59147,59158,59164,59170,59187,59201,59205,59210,59212,59221,59228,59237,59241,59251,59277,59288,59304,59314,59323,59324,59336,59341,59364,59379,59409,59418,59427,59431,59432,59441,59477,59488,59491,59499,59510,59516,59524,59530,59540,59546,59551,59565,59587,59604,59626,59627,59628,59646,59656,59682,59683,59694,59701,59712,59716,59718,59722,59727,59738,59769,59773,59775,59778,59779,59783,59785,59830,59831,59840,59846,59860,59861,59883,59899,59911,59928,59934,59982,59985,59991,60004,60017,60042,60058,60062,60084,60107,60109,60117,60120,60121,60135,60138,60150,60159,60160,60164,60165,60169,60175,60184,60188,60192,60215,60224,60233,60235,60262,60263,60268,60269,60278,60296,60309,60310,60313,60315,60316,60320,60346,60368,60374,60377,60379,60413,60423,60424,60432,60464,60466,60467,60475,60480,60485,60489,60491,60503,60509,60528,60535,60536,60538,60554,60563,60594,60601,60602,60605,60646,60677,60725,60728,60730,60731,60734,60754,60759,60792,60804,60835,60850,60854,60857,60888,60889,60890,60908,60910,60911,60920,60963,60973,60982,60991,61023,61051,61083,61085,61086,61094,61102,61126,61129,61144,61173,61192,61199,61205,61206,61214,61225,61229,61256,61310,61365,61373,61393,61426,61433,61436,61437,61464,61472,61479,61484,61499,61500,61501,61505,61507,61536,61543,61564,61575,61582,61587,61590,61605,61606,61616,61635,61641,61647,61668,61669,61674,61713,61725,61730,61735,61737,61749,61753,61769,61775,61791,61816,61817,61845,61854,61861,61863,61872,61883,61889,61912,61932,61945,61946,61979,61983,61985,61991,61993,61995,62021,62023,62053,62057,62058,62064,62080,62083,62084,62089,62119,62128,62136,62138,62153,62156,62162,62173,62184,62190,62197,62212,62222,62229,62230,62235,62244,62245,62250,62271,62284,62287,62292,62328,62362,62364,62368,62402,62404,62406,62409,62412,62440,62450,62464,62475,62477,62478,62480,62481,62492,62520,62522,62571,62573,62589,62592,62627,62643,62673,62686,62689,62733,62748,62750,62755,62768,62787,62804,62814,62816,62818,62851,62854,62886,62894,62897,62899,62908,62909,62931,62941,62946,62951,62952,62954,62955,62979,62990,62997,63003,63029,63049,63092,63107,63112,63144,63145,63147,63153,63157,63164,63174,63179,63187,63194,63200,63213,63220,63222,63223,63267,63268,63285,63288,63290,63300,63301,63319,63327,63329,63331,63334,63336,63337,63338,63339,63348,63355,63357,63371,63382,63384,63418,63441,63486,63500,63514,63531,63556,63591,63601,63602,63603,63605,63614,63621,63626,63627,63628,63629,63662,63697,63707,63710,63711,63715,63727,63729,63743,63748,63766,63774,63796,63810,63823,63834,63837,63867,63870,63874,63898,63904,63922,63926,63931,63939,63943,63952,63960,63973,63992,64011,64024,64048,64053,64058,64074,64077,64080,64083,64096,64111,64113,64120,64125,64133,64135,64136,64165,64173,64174,64177,64180,64181,64183,64185,64186,64189,64191,64198,64207,64244,64246,64255,64269,64298,64319,64325,64329,64339,64347,64365,64366,64379,64382,64389,64390,64414,64420,64421,64427,64432,64445,64446,64458,64506,64515,64534,64544,64548,64557,64564,64574,64579,64605,64611,64612,64613,64621,64622,64623,64626,64630,64683,64702,64716,64731,64737,64738,64744,64745,64758,64771,64782,64790,64792,64797,64818,64838,64839,64848,64857,64858,64863,64866,64892,64899,64902,64909,64929,64935,64936,64954,64959,64967,64994,64996,65027,65034,65036,65046,65070,65074,65085,65086,65101,65103,65106,65116,65128,65137,65145,65146,65153,65165,65166,65170,65196,65204,65219,65221,65236,65242,65246,65258,65296,65321,65322,65332,65338,65391,65413,65430,65439,65450,65453,65469,65475,65481,65486,65492,65500,65508,65521,65525,65533,65539,65542,65557,65559,65565,65593,65605,65607,65611,65617,65626,65674,65683,65706,65712,65715,65723,65733,65742,65756,65760,65774,65792,65808,65810,65830,65850,65851,65864,65869,65885,65910,65934,65939,65945,65952,65968,65981,65982,65990,66001,66005,66013,66034,66057,66066,66069,66122,66145,66146,66166,66184,66213,66219,66263,66269,66277,66282,66287,66294,66295,66307,66317,66326,66354,66357,66361,66372,66416,66422,66431,66448,66452,66454,66456,66461,66486,66490,66498,66515,66525,66543,66553,66569,66579,66586,66591,66597,66600,66605,66612,66627,66629,66639,66663,66666,66668,66672,66682,66684,66688,66694,66703,66706,66715,66719,66733,66736,66739,66751,66789,66799,66803,66812,66813,66815,66849,66850,66864,66878,66885,66937,66944,66959,66961,66971,66976,66984,66993,67010,67017,67021,67032,67039,67047,67058,67074,67086,67093,67105,67127,67133,67144,67154,67167,67172,67174,67176,67181,67188,67199,67207,67213,67221,67226,67257,67261,67264,67268,67271,67284,67310,67330,67331,67349,67351,67356,67359,67364,67388,67401,67403,67407,67408,67411,67425,67433,67440,67450,67451,67455,67467,67470,67474,67481,67487,67497,67498,67500,67518,67522,67526,67555,67558,67565,67597,67606,67611,67618,67635,67639,67642,67646,67667,67687,67701,67709,67724,67784,67788,67792,67798,67801,67803,67838,67841,67843,67856,67858,67871,67872,67882,67883,67884,67893,67898,67901,67905,67926,67956,67966,67968,67973,67974,67976,67981,67992,67995,68006,68012,68029,68039,68051,68062,68097,68110,68112,68118,68121,68150,68151,68152,68192,68217,68226,68284,68288,68294,68298,68319,68331,68332,68374,68382,68392,68395,68400,68401,68422,68427,68428,68438,68454,68456,68464,68474,68493,68500,68509,68529,68534,68550,68554,68559,68561,68567,68568,68571,68577,68595,68596,68608,68612,68652,68659,68670,68719,68751,68760,68761,68787,68788,68799,68808,68809,68818,68835,68845,68846,68858,68888,68906,68908,68923,68935,68938,68943,68956,68970,68976,68978,68992,68995,68999,69011,69019,69029,69033,69036,69052,69071,69072,69073,69080,69101,69108,69109,69111,69114,69122,69135,69136,69163,69168,69180,69198,69209,69211,69225,69246,69248,69250,69263,69270,69298,69304,69312,69315,69323,69340,69351,69362,69363,69376,69401,69410,69413,69421,69447,69455,69466,69489,69494,69499,69509,69527,69541,69545,69547,69556,69592,69608,69622,69643,69679,69694,69702,69741,69748,69749,69760,69761,69777,69779,69807,69819,69830,69834,69849,69866,69879,69943,69961,69967,69968,69974,69984,69992,69993,70018,70031,70033,70052,70055,70059,70064,70068,70073,70087,70100,70103,70107,70109,70118,70121,70137,70155,70159,70173,70180,70185,70193,70197,70207,70281,70285,70297,70308,70322,70326,70333,70335,70338,70350,70357,70369,70379,70386,70387,70394,70411,70417,70424,70437,70445,70455,70458,70487,70493,70503,70507,70512,70538,70541,70555,70570,70588,70594,70612,70618,70634,70636,70637,70647,70693,70714,70732,70748,70751,70770,70771,70776,70778,70832,70869,70871,70881,70889,70893,70913,70930,70932,70938,70939,70949,70967,70969,70977,70991,71006,71009,71030,71043,71044,71055,71062,71090,71098,71127,71134,71168,71172,71174,71190,71202,71214,71227,71258,71268,71273,71297,71305,71315,71344,71345,71354,71376,71378,71381,71406,71408,71410,71411,71427,71450,71453,71464,71471,71479,71504,71532,71552,71577,71581,71593,71602,71606,71616,71620,71624,71637,71658,71660,71663,71675,71682,71688,71693,71694,71699,71713,71714,71722,71736,71807,71808,71816,71818,71819,71837,71870,71896,71897,71912,71930,71941,71960,71963,71979,71984,71988,71989,72006,72009,72010,72016,72023,72033,72035,72062,72064,72080,72128,72129,72139,72154,72158,72189,72192,72204,72235,72238,72243,72262,72270,72291,72301,72302,72308,72334,72351,72361,72365,72373,72385,72395,72401,72406,72412,72414,72423,72437,72456,72457,72480,72482,72491,72495,72518,72523,72571,72577,72616,72629,72639,72655,72669,72676,72677,72683,72689,72694,72700,72702,72703,72711,72712,72716,72721,72725,72742,72758,72760,72771,72773,72809,72844,72849,72852,72855,72856,72861,72884,72916,72918,72933,72945,72971,72975,72978,72994,73006,73010,73028,73040,73049,73053,73065,73069,73072,73073,73087,73088,73090,73092,73104,73122,73126,73138,73143,73153,73159,73160,73204,73232,73243,73244,73247,73275,73288,73293,73317,73330,73332,73337,73338,73350,73369,73394,73405,73419,73420,73429,73433,73445,73456,73475,73482,73483,73487,73489,73506,73514,73518,73525,73543,73550,73611,73636,73637,73642,73656,73687,73688,73695,73708,73714,73718,73731,73784,73794,73805,73807,73808,73810,73815,73824,73832,73836,73839,73846,73856,73867,73876,73883,73886,73901,73903,73904,73906,73913,73916,73939,73940,73945,73954,73961,73966,73973,73976,73993,73994,74001,74017,74036,74037,74059,74065,74076,74088,74102,74116,74125,74152,74153,74164,74174,74181,74191,74213,74219,74235,74249,74257,74258,74274,74288,74302,74348,74355,74391,74395,74413,74415,74417,74419,74422,74450,74455,74518,74527,74532,74539,74550,74556,74561,74604,74606,74609,74617,74618,74630,74641,74642,74643,74688,74709,74715,74736,74758,74760,74769,74791,74792,74801,74809,74812,74821,74834,74839,74869,74883,74886,74894,74898,74905,74907,74908,74909,74919,74922,74937,74953,74956,74969,74973,74979,74995,74997,75004,75007,75023,75046,75049,75053,75063,75070,75095,75124,75128,75151,75161,75169,75212,75213,75214,75223,75228,75235,75239,75262,75277,75280,75307,75318,75321,75339,75362,75363,75366,75375,75389,75391,75397,75398,75403,75405,75410,75437,75506,75507,75517,75531,75544,75546,75550,75553,75569,75575,75589,75591,75594,75596,75611,75627,75643,75644,75648,75650,75652,75661,75665,75684,75706,75723,75735,75792,75808,75832,75840,75844,75850,75857,75878,75895,75914,75916,75917,75927,75945,75978,76023,76032,76039,76060,76062,76069,76074,76079,76096,76105,76157,76161,76162,76165,76170,76176,76184,76186,76193,76199,76202,76204,76209,76212,76253,76276,76280,76286,76297,76313,76314,76357,76359,76368,76391,76396,76399,76428,76434,76452,76477,76508,76510,76541,76548,76567,76571,76612,76622,76627,76629,76639,76659,76670,76674,76692,76697,76704,76720,76755,76776,76819,76823,76835,76839,76846,76849,76939,76956,76964,76967,76971,76975,77001,77011,77012,77027,77030,77045,77061,77065,77069,77070,77077,77091,77099,77127,77128,77142,77153,77173,77214,77215,77243,77247,77258,77260,77262,77268,77277,77284,77290,77291,77294,77295,77297,77315,77333,77353,77356,77363,77375,77387,77392,77393,77405,77409,77414,77432,77444,77456,77461,77478,77484,77496,77510,77528,77548,77549,77565,77567,77578,77579,77580,77582,77583,77595,77604,77606,77629,77632,77651,77694,77701,77713,77727,77732,77762,77774,77780,77784,77790,77802,77804,77823,77837,77847,77850,77854,77858,77867,77876,77882,77892,77912,77913,77915,77919,77921,77926,77931,77935,77937,77951,77959,77962,77982,78004,78018,78028,78066,78073,78080,78091,78092,78102,78124,78130,78132,78179,78182,78194,78195,78236,78244,78291,78292,78299,78314,78350,78362,78366,78392,78395,78396,78400,78401,78403,78405,78416,78417,78425,78430,78462,78469,78474,78505,78511,78513,78514,78518,78520,78530,78534,78581,78598,78604,78608,78644,78648,78650,78663,78677,78684,78700,78713,78715,78776,78794,78800,78808,78828,78844,78875,78922,78923,78925,78937,78939,78941,78953,78955,78958,78962,78970,78972,78998,79009,79019,79023,79029,79044,79047,79084,79092,79101,79104,79112,79137,79139,79143,79214,79216,79222,79230,79239,79262,79263,79274,79299,79316,79318,79341,79344,79349,79375,79379,79393,79396,79408,79426,79439,79443,79454,79470,79471,79472,79486,79530,79537,79539,79544,79564,79568,79579,79594,79603,79604,79607,79611,79622,79631,79643,79659,79667,79678,79681,79684,79719,79722,79727,79750,79755,79783,79792,79824,79827,79828,79864,79866,79880,79896,79908,79935,79956,79962,79967</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mean before</td>
+<td style="text-align: left;">36.77</td>
+<td style="text-align: left;">25.93</td>
+<td style="text-align: left;">25.69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mean after</td>
+<td style="text-align: left;">25.87</td>
+<td style="text-align: left;">23.14</td>
+<td style="text-align: left;">21.36</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Median before</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Median after</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">22</td>
+<td style="text-align: left;">19</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s move on and look for some pattern related to numerical features distribution</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ExpNumViz</span>(<span class="at">data=</span>trainData,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">target=</span><span class="st">"drkStatus"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">type=</span><span class="dv">1</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">Page=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`0`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DrinkersBodySignal_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DrinkersBodySignal_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DrinkersBodySignal_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The numerical features visualization allows us to see that some predictors affect significantly the target value, while others don’t. Age, height, weight look like the most relevant to this extent, even if the different scale of each box plot could lead to some kind of misinterpretation.</p>
+</section>
+<section id="categorical-features" class="level4">
+<h4 class="anchored" data-anchor-id="categorical-features">Categorical features</h4>
+<p>As for numerical variables, let’s summarize categorical features with smartEDA package. Specifically, I’ll use the ExpCatStat() command.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: FALSE</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>DataSmartEda_cat <span class="ot">&lt;-</span> <span class="fu">ExpCatStat</span>(trainData,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">Target=</span><span class="st">"drkStatus"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">result=</span><span class="st">"stat"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">clim=</span><span class="dv">10</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">nlim=</span><span class="dv">5</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">bins=</span><span class="dv">10</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">Pclass=</span><span class="st">"Y"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">plot=</span><span class="cn">FALSE</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">top=</span><span class="dv">20</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                               <span class="at">Round=</span><span class="dv">2</span>)<span class="sc">|&gt;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">PredPower=</span><span class="st">'Predictive Power'</span>)<span class="sc">|&gt;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(PredPower<span class="sc">==</span><span class="st">"Highly Predictive"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): NA introdotti per coercizione</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DataSmartEda_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 20%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: right;">Unique</th>
+<th style="text-align: right;">Chi-squared</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">IV Value</th>
+<th style="text-align: right;">Cramers V</th>
+<th style="text-align: left;">Degree of Association</th>
+<th style="text-align: left;">PredPower</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sex</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10329.654</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: left;">Strong</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smk_status</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">10350.076</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: left;">Strong</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6847.839</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: left;">Moderate</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">11263.846</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: left;">Strong</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">weight</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5879.255</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: left;">Moderate</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hemoglobin</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">7836.990</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: left;">Strong</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gamma_GTP</td>
+<td style="text-align: left;">drkStatus</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">7096.551</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: left;">Strong</td>
+<td style="text-align: left;">Highly Predictive</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>What can we see from this table? 1. We can see six predictors that seem to have a highly predictive power. 2. Compared to decision tree’s most important variable, five out of six are the same. 3. Serum_creatinine is considered amongst the top 6 by decision tree, while in Information Value’s ranking it gets a “somewhat predictive”/“moderate” predictive power. 4. On the other hand, gamma_GTP is more considered by Information value while reaches the eight place only in decision tree’s important variables ranking. 5. Amongst these six feature only height and weight seems pretty much correlated (0.7). Very, very curiously, height is more collerated than weight to drinking habit (the target value). 6. I will “merge” these two feature into one (body mass index) in order to use the information of both with only one predictor.</p>
+<p>Now, is there something we can observe about categorical features distribution? I can quickly find it out with (again: from smartEDa) ExpCatViz().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ExpCatViz</span>(<span class="at">data=</span>trainData,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">target=</span><span class="st">"drkStatus"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">Page=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">Flip=</span><span class="cn">TRUE</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">col=</span><span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"violet"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`0`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DrinkersBodySignal_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This visualization seems pretty informative: - sex and smoking habits (smk_status) look correlated to the target variable. Specifically, males tend to smoke more frequently and non smokerks (status 1) are tipically non drinkers, while ex smokers or actual smokers more often use alchool. - Other categorical variables don’t seem to be significantly associated to drinking habits.</p>
+</section>
+</section>
+<section id="multivariate-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="multivariate-analysis">Multivariate analysis</h3>
+<section id="correlation-between-numerical-predictors" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-between-numerical-predictors">Correlation between numerical predictors</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>corMatr <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(trainData[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">18</span>,<span class="dv">23</span>,<span class="dv">24</span>)], <span class="at">use=</span><span class="st">"complete.obs"</span>), <span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorrplot</span>(corMatr,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">hc.order =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">"lower"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">lab =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DrinkersBodySignal_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Only a few numerical features seem to be significantly mutually correlated: * tot_chole and LDL_chole (0.9), * height and weight (0.7), * SBP and DBP (0.7). According to this, it’s logical to take into account the idea of eliminating one for each couple of correlated features above.</p>
+</section>
+<section id="principal-component-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="principal-component-analysis">Principal Component Analysis</h4>
+<p>With correlation plot, I have taken a first glance to see if some variable may be considered “useless” because its potential predictive power is still provided by another variable(s) and thus semplify the dataset and reducing the “curse of dimensionality” risk. Another analysis I can do toward this goal may be Principal Compentent Analysis (PCA); if I can reduce the dataset features in a smaller number of brand new variable (or principal components) and the very first principal components (let’s say from two to four) are able to explain the most target variable variance, I could feed machine learning models with quite a light and simple predictors’ dataset which, in some cases could be very useful.</p>
+<p>I will use factoextra package. Let’s see what we can get.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dsPca2 <span class="ot">&lt;-</span> trainData<span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">where</span>(is.numeric))<span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prcomp</span>(<span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dsPca2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2    PC3     PC4     PC5     PC6     PC7
+Standard deviation     1.9170 1.4584 1.4109 1.27541 1.10753 1.01832 0.96567
+Proportion of Variance 0.2041 0.1182 0.1106 0.09037 0.06815 0.05761 0.05181
+Cumulative Proportion  0.2041 0.3223 0.4329 0.52327 0.59142 0.64903 0.70083
+                           PC8     PC9    PC10    PC11    PC12    PC13    PC14
+Standard deviation     0.94929 0.88607 0.85389 0.82180 0.76756 0.75266 0.62535
+Proportion of Variance 0.05006 0.04362 0.04051 0.03752 0.03273 0.03147 0.02173
+Cumulative Proportion  0.75090 0.79451 0.83502 0.87254 0.90527 0.93674 0.95847
+                         PC15    PC16    PC17    PC18
+Standard deviation     0.4894 0.48019 0.41398 0.32573
+Proportion of Variance 0.0133 0.01281 0.00952 0.00589
+Cumulative Proportion  0.9718 0.98458 0.99411 1.00000</code></pre>
+</div>
+</div>
+<p>What can I say? To explain the 80% of target variance, I need to take into account 9 principal component (which are a sort of “synthetic features” composed by “blending” togheter the original most relevant features). I read this result in two ways: * from 24 to 9 “main” variables, the “saving” in terms of dimensionality is pretty interesting; * on the other hand, 9 features are still a high number expecially if I (after PCA) I have to cope with dimensions I cannot really handle properly as far as interpretation is concerned.</p>
+<p>Of course, it is necessary to keep in mind that PCA only affects numerical predictors.</p>
+</section>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<p>What’s above may be used as a basis for training and testing some ML models.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
