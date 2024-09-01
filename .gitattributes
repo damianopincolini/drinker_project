@@ -1,0 +1,4 @@
+*.R linguist-language=R
+*.qmd linguist-language=Markdown
+*.csv linguist-vendored
+*.pdf linguist-vendored
